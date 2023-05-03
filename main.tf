@@ -14,17 +14,20 @@ locals {
   kms_key_name         = lookup(var.kms_key, "name", "k8s-kms-key")
   kms_key_name_with_id = "${local.kms_key_name}-${random_string.unique_id.result}"
 
-  security_groups_list = concat(var.enable_default_rules == true ? [
-    yandex_vpc_security_group.k8s_main_sg[0].id,
-    yandex_vpc_security_group.k8s_master_whitelist_sg[0].id,
-    yandex_vpc_security_group.k8s_nodes_ssh_access_sg[0].id
-    ] : [], length(var.custom_ingress_rules) > 0 || length(var.custom_egress_rules) > 0 ? [
-    yandex_vpc_security_group.k8s_custom_rules_sg[0].id
-  ] : [])
+  security_groups_list = concat(
+    var.security_groups_ids_list,
+    var.enable_default_rules == true ? [
+      yandex_vpc_security_group.k8s_main_sg[0].id,
+      yandex_vpc_security_group.k8s_master_whitelist_sg[0].id,
+      yandex_vpc_security_group.k8s_nodes_ssh_access_sg[0].id
+    ] : [],
+    length(var.custom_ingress_rules) > 0 || length(var.custom_egress_rules) > 0 ? [
+      yandex_vpc_security_group.k8s_custom_rules_sg[0].id
+    ] : [])
 
   # Merging master labels with node group labels
   node_groups_labels = concat([
-    for i, v in tolist(keys(var.node_groups)) : lookup(var.node_groups[v], "labels", {})
+  for i, v in tolist(keys(var.node_groups)) : lookup(var.node_groups[v], "labels", {})
   ])
   merged_node_labels_with_master = merge(zipmap(
     flatten([for item in local.node_groups_labels : keys(item)]),

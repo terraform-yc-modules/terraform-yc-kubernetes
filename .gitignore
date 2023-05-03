@@ -33,3 +33,5 @@ terraform.rc
 
 # Zip archive
 *.zip
+
+.idea
