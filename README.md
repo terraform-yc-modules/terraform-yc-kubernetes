@@ -141,8 +141,8 @@ export YC_FOLDER_ID=$(yc config get folder-id)
 
 | Name | Version |
 |------|---------|
-| <a name="provider_random"></a> [random](#provider\_random) | > 3.3 |
-| <a name="provider_yandex"></a> [yandex](#provider\_yandex) | > 0.8 |
+| <a name="provider_random"></a> [random](#provider\_random) | 3.5.1 |
+| <a name="provider_yandex"></a> [yandex](#provider\_yandex) | 0.91.0 |
 
 ## Modules
 
