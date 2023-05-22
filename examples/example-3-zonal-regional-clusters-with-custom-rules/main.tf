@@ -1,6 +1,4 @@
-data "yandex_client_config" "client" {}
-
-module "kube-01" {
+module "kube_01" {
   source = "../../"
 
   cluster_name         = "kube-cluster-01"
@@ -107,7 +105,7 @@ module "kube-01" {
   }
 }
 
-module "kube-02" {
+module "kube_02" {
   source = "../../"
 
   cluster_name         = "kube-cluster-02"
