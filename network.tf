@@ -1,6 +1,7 @@
 # Security groups
 resource "yandex_vpc_security_group" "k8s_main_sg" {
   count       = var.enable_default_rules ? 1 : 0
+  folder_id   = local.folder_id
   name        = "k8s-security-main-${random_string.unique_id.result}"
   description = "K8S security group"
   network_id  = var.network_id
@@ -61,6 +62,7 @@ resource "yandex_vpc_security_group" "k8s_main_sg" {
 
 resource "yandex_vpc_security_group" "k8s_master_whitelist_sg" {
   count       = var.enable_default_rules ? 1 : 0
+  folder_id   = local.folder_id
   name        = "k8s-master-whitelist-${random_string.unique_id.result}"
   description = "Allow access to Kubernetes API from internet."
   network_id  = var.network_id
@@ -82,6 +84,7 @@ resource "yandex_vpc_security_group" "k8s_master_whitelist_sg" {
 
 resource "yandex_vpc_security_group" "k8s_nodes_ssh_access_sg" {
   count       = var.enable_default_rules ? 1 : 0
+  folder_id   = local.folder_id
   name        = "k8s-nodes-ssh-access-${random_string.unique_id.result}"
   description = "Allow connect to workers nodes from internet SSH."
   network_id  = var.network_id
@@ -97,6 +100,7 @@ resource "yandex_vpc_security_group" "k8s_nodes_ssh_access_sg" {
 # This group defines custom security rules
 resource "yandex_vpc_security_group" "k8s_custom_rules_sg" {
   count       = length(var.custom_ingress_rules) > 0 || length(var.custom_egress_rules) > 0 ? 1 : 0
+  folder_id   = local.folder_id
   name        = "k8s-custom-rules-group-${random_string.unique_id.result}"
   description = "This group defines custom ingress / egress security rules."
   network_id  = var.network_id
