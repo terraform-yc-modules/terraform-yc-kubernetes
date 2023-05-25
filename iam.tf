@@ -50,6 +50,13 @@ resource "yandex_resourcemanager_folder_iam_member" "sa_public_loadbalancers_rol
   member    = "serviceAccount:${yandex_iam_service_account.master.id}"
 }
 
+resource "yandex_resourcemanager_folder_iam_member" "sa_logging_writer_role" {
+  count     = var.master_logging.enabled ? 1 : 0
+  folder_id = local.folder_id
+  role      = "logging.writer"
+  member    = "serviceAccount:${yandex_iam_service_account.master.id}"
+}
+
 resource "yandex_resourcemanager_folder_iam_member" "node_account" {
   folder_id = local.folder_id
   role      = "container-registry.images.puller"
