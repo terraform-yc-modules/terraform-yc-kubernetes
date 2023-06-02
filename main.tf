@@ -48,7 +48,7 @@ resource "yandex_kubernetes_cluster" "kube_cluster" {
   network_policy_provider  = var.enable_cilium_policy ? null : var.network_policy_provider
 
   dynamic "kms_provider" {
-    for_each = var.create_kms ? compact([try(yandex_kms_symmetric_key.kms_key[local.kms_key_name_with_id].id, null)]) : []
+    for_each = var.create_kms ? compact([try(yandex_kms_symmetric_key.kms_key[0].id, null)]) : []
     content {
       key_id = kms_provider.value
     }
