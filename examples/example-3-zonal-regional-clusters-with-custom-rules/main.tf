@@ -41,7 +41,7 @@ module "kube_01" {
       }
     },
     "yc-k8s-ng-02" = {
-      version     = "1.21"
+      version     = "1.22"
       description = "Kubernetes nodes group 02"
       auto_scale = {
         min     = 3
