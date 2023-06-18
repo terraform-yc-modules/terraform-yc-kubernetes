@@ -7,6 +7,13 @@ public_access        = true
 create_kms           = true
 enable_cilium_policy = true
 
+master_locations   = [
+  {
+    zone      = "ru-central1-a"
+    subnet_id = "e9bca15oo9ji5vgnh8kv"
+  }
+]
+
 kms_key = {
   name = "kube-regional-kms-key"
 }
