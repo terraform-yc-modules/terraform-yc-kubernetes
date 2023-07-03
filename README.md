@@ -142,7 +142,7 @@ export YC_FOLDER_ID=$(yc config get folder-id)
 | Name | Version |
 |------|---------|
 | <a name="provider_random"></a> [random](#provider\_random) | 3.5.1 |
-| <a name="provider_yandex"></a> [yandex](#provider\_yandex) | 0.91.0 |
+| <a name="provider_yandex"></a> [yandex](#provider\_yandex) | 0.93.0 |
 
 ## Modules
 
@@ -162,6 +162,7 @@ No modules.
 | [yandex_resourcemanager_folder_iam_member.node_account](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/resourcemanager_folder_iam_member) | resource |
 | [yandex_resourcemanager_folder_iam_member.sa_calico_network_policy_role](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/resourcemanager_folder_iam_member) | resource |
 | [yandex_resourcemanager_folder_iam_member.sa_cilium_network_policy_role](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/resourcemanager_folder_iam_member) | resource |
+| [yandex_resourcemanager_folder_iam_member.sa_logging_writer_role](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/resourcemanager_folder_iam_member) | resource |
 | [yandex_resourcemanager_folder_iam_member.sa_node_group_loadbalancer_role_admin](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/resourcemanager_folder_iam_member) | resource |
 | [yandex_resourcemanager_folder_iam_member.sa_node_group_public_role_admin](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/resourcemanager_folder_iam_member) | resource |
 | [yandex_resourcemanager_folder_iam_member.sa_public_loadbalancers_role](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/resourcemanager_folder_iam_member) | resource |
