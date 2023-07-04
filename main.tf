@@ -42,6 +42,7 @@ resource "yandex_kubernetes_cluster" "kube_cluster" {
   service_account_id       = yandex_iam_service_account.master.id
   node_service_account_id  = yandex_iam_service_account.node_account.id
   network_policy_provider  = var.enable_cilium_policy ? null : var.network_policy_provider
+  release_channel          = var.release_channel
 
   dynamic "kms_provider" {
     for_each = var.create_kms ? compact([try(yandex_kms_symmetric_key.kms_key[0].id, null)]) : []

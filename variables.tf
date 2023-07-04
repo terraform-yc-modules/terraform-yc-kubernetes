@@ -41,7 +41,7 @@ variable "description" {
 variable "cluster_version" {
   description = "Kubernetes cluster version"
   type        = string
-  default     = "1.23"
+  default     = null
 }
 
 variable "cluster_ipv4_range" {
