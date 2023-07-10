@@ -28,6 +28,19 @@ locals {
   ), var.master_labels)
 }
 
+resource "time_sleep" "wait_for_iam" {
+  create_duration = "5s"
+  depends_on = [
+    yandex_resourcemanager_folder_iam_member.sa_calico_network_policy_role,
+    yandex_resourcemanager_folder_iam_member.sa_cilium_network_policy_role,
+    yandex_resourcemanager_folder_iam_member.sa_node_group_public_role_admin,
+    yandex_resourcemanager_folder_iam_member.sa_node_group_loadbalancer_role_admin,
+    yandex_resourcemanager_folder_iam_member.sa_public_loadbalancers_role,
+    yandex_resourcemanager_folder_iam_member.sa_logging_writer_role,
+    yandex_resourcemanager_folder_iam_member.node_account
+  ]
+}
+
 resource "yandex_kubernetes_cluster" "kube_cluster" {
   name                     = "${var.cluster_name}-${random_string.unique_id.result}"
   description              = var.description
@@ -120,7 +133,8 @@ resource "yandex_kubernetes_cluster" "kube_cluster" {
     yandex_resourcemanager_folder_iam_member.sa_node_group_public_role_admin,
     yandex_resourcemanager_folder_iam_member.sa_node_group_loadbalancer_role_admin,
     yandex_resourcemanager_folder_iam_member.sa_logging_writer_role,
-    yandex_resourcemanager_folder_iam_member.sa_public_loadbalancers_role
+    yandex_resourcemanager_folder_iam_member.sa_public_loadbalancers_role,
+    time_sleep.wait_for_iam
   ]
 
 }
