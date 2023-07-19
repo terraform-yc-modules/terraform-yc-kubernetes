@@ -135,6 +135,7 @@ export YC_FOLDER_ID=$(yc config get folder-id)
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | > 3.3 |
+| <a name="requirement_time"></a> [time](#requirement\_time) | > 0.9 |
 | <a name="requirement_yandex"></a> [yandex](#requirement\_yandex) | > 0.8 |
 
 ## Providers
@@ -142,7 +143,8 @@ export YC_FOLDER_ID=$(yc config get folder-id)
 | Name | Version |
 |------|---------|
 | <a name="provider_random"></a> [random](#provider\_random) | 3.5.1 |
-| <a name="provider_yandex"></a> [yandex](#provider\_yandex) | 0.93.0 |
+| <a name="provider_time"></a> [time](#provider\_time) | 0.9.1 |
+| <a name="provider_yandex"></a> [yandex](#provider\_yandex) | 0.95.0 |
 
 ## Modules
 
@@ -153,6 +155,7 @@ No modules.
 | Name | Type |
 |------|------|
 | [random_string.unique_id](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
+| [time_sleep.wait_for_iam](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/sleep) | resource |
 | [yandex_iam_service_account.master](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/iam_service_account) | resource |
 | [yandex_iam_service_account.node_account](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/iam_service_account) | resource |
 | [yandex_kms_symmetric_key.kms_key](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/kms_symmetric_key) | resource |
@@ -219,10 +222,15 @@ No modules.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_cluster_ca_certificate"></a> [cluster\_ca\_certificate](#output\_cluster\_ca\_certificate) | Kubernetes cluster certificate. |
 | <a name="output_cluster_id"></a> [cluster\_id](#output\_cluster\_id) | Kubernetes cluster ID. |
 | <a name="output_cluster_name"></a> [cluster\_name](#output\_cluster\_name) | Kubernetes cluster name. |
 | <a name="output_external_cluster_cmd"></a> [external\_cluster\_cmd](#output\_external\_cluster\_cmd) | Kubernetes cluster public IP address.<br>    Use the following command to download kube config and start working with Yandex Managed Kubernetes cluster:<br>    `$ yc managed-kubernetes cluster get-credentials --id <cluster_id> --external`<br>    This command will automatically add kube config for your user; after that, you will be able to test it with the<br>    `kubectl get cluster-info` command. |
+| <a name="output_external_v4_address"></a> [external\_v4\_address](#output\_external\_v4\_address) | Kubernetes cluster external IP address. |
+| <a name="output_external_v4_endpoint"></a> [external\_v4\_endpoint](#output\_external\_v4\_endpoint) | Kubernetes cluster external URL. |
 | <a name="output_internal_cluster_cmd"></a> [internal\_cluster\_cmd](#output\_internal\_cluster\_cmd) | Kubernetes cluster private IP address.<br>    Use the following command to download kube config and start working with Yandex Managed Kubernetes cluster:<br>    `$ yc managed-kubernetes cluster get-credentials --id <cluster_id> --internal`<br>    Note: Kubernetes internal cluster nodes are available from the virtual machines in the same VPC as cluster nodes. |
+| <a name="output_internal_v4_address"></a> [internal\_v4\_address](#output\_internal\_v4\_address) | Kubernetes cluster internal IP address.<br>    Note: Kubernetes internal cluster nodes are available from the virtual machines in the same VPC as cluster nodes. |
+| <a name="output_internal_v4_endpoint"></a> [internal\_v4\_endpoint](#output\_internal\_v4\_endpoint) | Kubernetes cluster internal URL.<br>    Note: Kubernetes internal cluster nodes are available from the virtual machines in the same VPC as cluster nodes. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 <!-- BEGIN_TF_DOCS -->
