@@ -89,6 +89,7 @@ resource "yandex_kubernetes_node_group" "kube_node_groups" {
         type = container_runtime.value
       }
     }
+    metadata = try(each.value.metadata, null)
   }
 
   node_labels            = try(each.value.node_labels, null)
