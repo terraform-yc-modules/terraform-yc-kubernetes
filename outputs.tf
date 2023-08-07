@@ -74,3 +74,19 @@ output "cluster_ca_certificate" {
   EOF
   value       = yandex_kubernetes_cluster.kube_cluster.master[0].cluster_ca_certificate
 }
+
+# IAM node account name
+output "node_account_name" {
+  description = <<EOF
+    IAM node account name
+  EOF
+  value       = yandex_iam_service_account.node_account.name
+}
+
+# IAM service account name
+output "service_account_name" {
+  description = <<EOF
+    IAM service account name
+  EOF
+  value       = yandex_iam_service_account.master.name
+}
