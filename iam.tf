@@ -3,6 +3,7 @@ locals {
     service_account_name = "k8s-service-account-${random_string.unique_id.result}"
     node_account_name    = "k8s-node-account-${random_string.unique_id.result}"
   }
+  master_logging_enabled = var.master_logging == null ? 0 : (var.master_logging.enabled ? 1 : 0 )
 }
 
 resource "yandex_iam_service_account" "master" {
@@ -51,7 +52,7 @@ resource "yandex_resourcemanager_folder_iam_member" "sa_public_loadbalancers_rol
 }
 
 resource "yandex_resourcemanager_folder_iam_member" "sa_logging_writer_role" {
-  count     = var.master_logging.enabled ? 1 : 0
+  count     = local.master_logging_enabled
   folder_id = local.folder_id
   role      = "logging.writer"
   member    = "serviceAccount:${yandex_iam_service_account.master.id}"

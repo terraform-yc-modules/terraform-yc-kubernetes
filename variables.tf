@@ -72,7 +72,7 @@ variable "node_ipv4_cidr_mask_size" {
 
 variable "service_ipv4_range" {
   description = <<EOF
-    CIDR block. IP range from which Kubernetes service cluster IP addresses 
+    CIDR block. IP range from which Kubernetes service cluster IP addresses
     will be allocated from. It should not overlap with
     any subnet in the network the Kubernetes cluster located in
     EOF
@@ -185,13 +185,14 @@ variable "master_maintenance_windows" {
 variable "master_logging" {
   description = "(Optional) Master logging options."
   type        = map(any)
-  default = {
-    enabled                = true
-    folder_id              = null
-    enabled_kube_apiserver = true
-    enabled_autoscaler     = true
-    enabled_events         = true
-  }
+  default = null
+#  default = {
+#    enabled                = true
+#    folder_id              = null
+#    enabled_kube_apiserver = true
+#    enabled_autoscaler     = true
+#    enabled_events         = true
+#  }
 }
 
 variable "master_labels" {
@@ -221,14 +222,14 @@ variable "node_groups" {
      - If node groups version isn't defined, cluster version will be used instead of.
      - A master locations list must have only one location for zonal cluster and three locations for a regional.
      - All node groups are able to define own locations. These locations will be used at first.
-     - If own location aren't defined for node groups with auto scale policy, locations for these groups will be automatically generated from master locations. If node groups list have more than three groups, locations for them will be assigned from the beggining of the master locations list. So, all node groups will be distributed in a range of master locations. 
+     - If own location aren't defined for node groups with auto scale policy, locations for these groups will be automatically generated from master locations. If node groups list have more than three groups, locations for them will be assigned from the beggining of the master locations list. So, all node groups will be distributed in a range of master locations.
      - Master locations will be used for fixed scale node groups.
      - Auto repair and upgrade values will be used master_auto_upgrade value.
      - Master maintenance windows will be used for Node groups also!
      - Only one max_expansion OR max_unavailable values should be specified for the deployment policy.
-    
+
     Documentation - https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/kubernetes_node_group
-    
+
     Default values:
     ```
       platform_id     = "standard-v3"
@@ -367,7 +368,7 @@ variable "enable_default_rules" {
 variable "custom_ingress_rules" {
   description = <<-EOF
     Map definition of custom security ingress rules.
-    
+
     Example:
     ```
     custom_ingress_rules = {
@@ -401,7 +402,7 @@ variable "custom_ingress_rules" {
 variable "custom_egress_rules" {
   description = <<-EOF
     Map definition of custom security egress rules.
-    
+
     Example:
     ```
     custom_egress_rules = {

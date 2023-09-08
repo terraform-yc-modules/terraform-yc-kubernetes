@@ -111,15 +111,17 @@ resource "yandex_kubernetes_cluster" "kube_cluster" {
       }
     }
 
-    master_logging {
-      enabled                    = var.master_logging.enabled
-      folder_id                  = local.folder_id
-      kube_apiserver_enabled     = var.master_logging.enabled_kube_apiserver
-      cluster_autoscaler_enabled = var.master_logging.enabled_autoscaler
-      events_enabled             = var.master_logging.enabled_events
+    dynamic "master_logging" {
+      for_each = var.master_logging == null ? toset([]) : toset([1])
+      content {
+        enabled                    = var.master_logging.enabled
+        folder_id                  = local.folder_id
+        kube_apiserver_enabled     = var.master_logging.enabled_kube_apiserver
+        cluster_autoscaler_enabled = var.master_logging.enabled_autoscaler
+        events_enabled             = var.master_logging.enabled_events
+      }
     }
   }
-
   timeouts {
     create = var.timeouts.create
     update = var.timeouts.update
