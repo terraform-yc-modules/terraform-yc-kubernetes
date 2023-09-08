@@ -185,14 +185,14 @@ variable "master_maintenance_windows" {
 variable "master_logging" {
   description = "(Optional) Master logging options."
   type        = map(any)
-  default = null
-#  default = {
-#    enabled                = true
-#    folder_id              = null
-#    enabled_kube_apiserver = true
-#    enabled_autoscaler     = true
-#    enabled_events         = true
-#  }
+  default     = null
+  #  default = {
+  #    enabled                = true
+  #    folder_id              = null
+  #    enabled_kube_apiserver = true
+  #    enabled_autoscaler     = true
+  #    enabled_events         = true
+  #  }
 }
 
 variable "master_labels" {

@@ -3,7 +3,7 @@ locals {
     service_account_name = "k8s-service-account-${random_string.unique_id.result}"
     node_account_name    = "k8s-node-account-${random_string.unique_id.result}"
   }
-  master_logging_enabled = var.master_logging == null ? 0 : (var.master_logging.enabled ? 1 : 0 )
+  master_logging_enabled = var.master_logging == null ? 0 : (var.master_logging.enabled ? 1 : 0)
 }
 
 resource "yandex_iam_service_account" "master" {
