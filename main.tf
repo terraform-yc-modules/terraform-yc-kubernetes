@@ -52,8 +52,8 @@ resource "yandex_kubernetes_cluster" "kube_cluster" {
   node_ipv4_cidr_mask_size = var.node_ipv4_cidr_mask_size
   service_ipv4_range       = var.service_ipv4_range
   service_ipv6_range       = var.service_ipv6_range
-  service_account_id       = yandex_iam_service_account.master.id
-  node_service_account_id  = yandex_iam_service_account.node_account.id
+  service_account_id       = local.create_sa ? var.master_service_account_id : yandex_iam_service_account.master[0].id
+  node_service_account_id  = local.create_sa ? var.node_service_account_id : yandex_iam_service_account.node_account[0].id
   network_policy_provider  = var.enable_cilium_policy ? null : var.network_policy_provider
   release_channel          = var.release_channel
 

@@ -98,6 +98,27 @@ variable "node_account_name" {
   default     = "k8s-node-account"
 }
 
+variable "use_existing_sa" {
+  description = <<EOF
+    Use existing service accounts for control plane and worker nodes or not.
+    If `true` parameters `master_service_account_id` and `node_service_account_id` must be set.
+  EOF
+  type        = bool
+  default     = false
+}
+
+variable "master_service_account_id" {
+  description = "Existing service account ID for control plane."
+  type        = string
+  default     = null
+}
+
+variable "node_service_account_id" {
+  description = "Existing service account ID for worker nodes."
+  type        = string
+  default     = null
+}
+
 variable "release_channel" {
   description = "Kubernetes cluster release channel name"
   type        = string
