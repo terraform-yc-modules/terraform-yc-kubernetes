@@ -327,4 +327,6 @@ No modules.
 | <a name="output_cluster_name"></a> [cluster\_name](#output\_cluster\_name) | Kubernetes cluster name. |
 | <a name="output_external_cluster_cmd"></a> [external\_cluster\_cmd](#output\_external\_cluster\_cmd) | Kubernetes cluster public IP address.<br>    Using following command to download kube config and start working with Yandex Managed Kubernetes cluster.<br>    $ yc managed-kubernetes cluster get-credentials --id <cluster\_id> --external<br>    This command will automatically add kube config for your user and after that you could test it with<br>    <kubectl get cluster-info> command. |
 | <a name="output_internal_cluster_cmd"></a> [internal\_cluster\_cmd](#output\_internal\_cluster\_cmd) | Kubernetes cluster pricate IP address.<br>    Using following command to download kube config and start working with Yandex Managed Kubernetes cluster.<br>    $ yc managed-kubernetes cluster get-credentials --id <cluster\_id> --internal<br>    NOTE: Be aware Kubernetes internal cluster nodes are available from nodes in the same subnet as cluster nodes! |
+| <a name="output_node_account_name"></a> [node\_account\_name_](#output\_node\_account\_name) | IAM node account name. |
+| <a name="output_service_account_name"></a> [service\_account\_name](#output\_service\_account\_name) | IAM service account name. |
 <!-- END_TF_DOCS -->
