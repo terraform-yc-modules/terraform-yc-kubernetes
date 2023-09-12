@@ -17,7 +17,8 @@ resource "yandex_kms_symmetric_key_iam_binding" "encrypter_decrypter" {
   symmetric_key_id = yandex_kms_symmetric_key.kms_key[count.index].id
   role             = "kms.keys.encrypterDecrypter"
   members = [
-    try("serviceAccount:${yandex_iam_service_account.master[0].id}", null),
+    #try("serviceAccount:${yandex_iam_service_account.master[0].id}", null),
+    "serviceAccount:${yandex_iam_service_account.master[0].id}"
   ]
 }
 
