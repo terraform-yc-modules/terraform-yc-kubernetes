@@ -13,10 +13,20 @@ resource "yandex_kms_symmetric_key" "kms_key" {
 }
 
 resource "yandex_kms_symmetric_key_iam_binding" "encrypter_decrypter" {
-  count            = var.create_kms ? 1 : 0
+  count            = var.create_kms && !local.create_sa ? 1 : 0
   symmetric_key_id = yandex_kms_symmetric_key.kms_key[count.index].id
   role             = "kms.keys.encrypterDecrypter"
   members = [
-    "serviceAccount:${yandex_iam_service_account.master.id}",
+    #try("serviceAccount:${yandex_iam_service_account.master[0].id}", null),
+    "serviceAccount:${yandex_iam_service_account.master[0].id}"
+  ]
+}
+
+resource "yandex_kms_symmetric_key_iam_binding" "encrypter_decrypter_existing_sa" {
+  count            = var.create_kms && local.create_sa ? 1 : 0
+  symmetric_key_id = yandex_kms_symmetric_key.kms_key[count.index].id
+  role             = "kms.keys.encrypterDecrypter"
+  members = [
+    "serviceAccount:${var.master_service_account_id}",
   ]
 }
