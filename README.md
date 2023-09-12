@@ -235,8 +235,10 @@ No modules.
 | <a name="output_internal_cluster_cmd"></a> [internal\_cluster\_cmd](#output\_internal\_cluster\_cmd) | Kubernetes cluster private IP address.<br>    Use the following command to download kube config and start working with Yandex Managed Kubernetes cluster:<br>    `$ yc managed-kubernetes cluster get-credentials --id <cluster_id> --internal`<br>    Note: Kubernetes internal cluster nodes are available from the virtual machines in the same VPC as cluster nodes. |
 | <a name="output_internal_v4_address"></a> [internal\_v4\_address](#output\_internal\_v4\_address) | Kubernetes cluster internal IP address.<br>    Note: Kubernetes internal cluster nodes are available from the virtual machines in the same VPC as cluster nodes. |
 | <a name="output_internal_v4_endpoint"></a> [internal\_v4\_endpoint](#output\_internal\_v4\_endpoint) | Kubernetes cluster internal URL.<br>    Note: Kubernetes internal cluster nodes are available from the virtual machines in the same VPC as cluster nodes. |
-| <a name="output_node_account_name_id"></a> [node\_account\_name\_id](#output\_node\_account\_name\_id) | Worker nodes service account ID. |
-| <a name="output_service_account_name_id"></a> [service\_account\_name\_id](#output\_service\_account\_name\_id) | Control plane service account ID. |
+| <a name="output_node_account_id"></a> [node\_account\_id](#output\_node\_account\_id) | Created IAM node account ID. |
+| <a name="output_node_account_name"></a> [node\_account\_name](#output\_node\_account\_name) | Created IAM node account name. |
+| <a name="output_service_account_id"></a> [service\_account\_id](#output\_service\_account\_id) | Created IAM service account ID. |
+| <a name="output_service_account_name"></a> [service\_account\_name](#output\_service\_account\_name) | Created IAM service account name. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 <!-- BEGIN_TF_DOCS -->
