@@ -75,13 +75,18 @@ output "cluster_ca_certificate" {
   value       = yandex_kubernetes_cluster.kube_cluster.master[0].cluster_ca_certificate
 }
 
-# service accounts
-output "service_account_name_id" {
-  description = "Control plane service account ID."
-  value       = try(yandex_iam_service_account.master[0].id, var.master_service_account_id)
+# IAM node account name
+output "node_account_name" {
+  description = <<EOF
+    IAM node account name
+  EOF
+  value       = yandex_iam_service_account.node_account.name
 }
 
-output "node_account_name_id" {
-  description = "Worker nodes service account ID."
-  value       = try(yandex_iam_service_account.node_account[0].id, var.node_service_account_id)
+# IAM service account name
+output "service_account_name" {
+  description = <<EOF
+    IAM service account name
+  EOF
+  value       = yandex_iam_service_account.master.name
 }
