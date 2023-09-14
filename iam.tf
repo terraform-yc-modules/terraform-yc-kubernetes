@@ -33,14 +33,14 @@ resource "yandex_resourcemanager_folder_iam_member" "sa_cilium_network_policy_ro
 }
 
 resource "yandex_resourcemanager_folder_iam_member" "sa_node_group_public_role_admin" {
-  count     = lookup(var.node_groups, "nat", true) && !local.create_sa ? 1 : 0
+  count     = anytrue([for i, v in var.node_groups : lookup(v, "nat", var.node_groups_defaults.nat)]) && !local.create_sa ? 1 : 0
   folder_id = local.folder_id
   role      = "vpc.publicAdmin"
   member    = "serviceAccount:${yandex_iam_service_account.master[0].id}"
 }
 
 resource "yandex_resourcemanager_folder_iam_member" "sa_node_group_loadbalancer_role_admin" {
-  count     = lookup(var.node_groups, "nat", true) && !local.create_sa ? 1 : 0
+  count     = anytrue([for i, v in var.node_groups : lookup(v, "nat", var.node_groups_defaults.nat)]) && !local.create_sa ? 1 : 0
   folder_id = local.folder_id
   role      = "load-balancer.admin"
   member    = "serviceAccount:${yandex_iam_service_account.master[0].id}"
