@@ -57,6 +57,7 @@ module "kube_01" {
     },
     "yc-k8s-ng-03" = {
       description = "Kubernetes nodes group 03"
+      security_groups_list = [yandex_vpc_security_group.k8s_test.id]
       auto_scale = {
         min     = 1
         max     = 2
@@ -252,4 +253,12 @@ module "kube_02" {
       to_port        = 8099
     }
   }
+}
+
+
+resource "yandex_vpc_security_group" "k8s_test" {
+  name        = "k8s_test"
+  description = "This group defines custom security rules."
+  folder_id            = "b1g4cr5d305a2bsm2im0"
+  network_id           = "enpneopbt180nusgut3q"
 }

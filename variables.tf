@@ -375,11 +375,26 @@ variable "enable_default_rules" {
      - Allows master-to-node and node-to-node communication inside a security group.
      - Allows pod-to-pod and service-to-service communication.
      - Allows debugging ICMP packets from internal subnets.
-     - Allows incomming traffic from the Internet to the NodePort port range.
-     - Allows all outgoing traffic. Nodes can connect to Yandex Container Registry, Yandex Object Storage, Docker Hub, etc.
+     - Allows debugging ICMP packets to internal subnets.
      - Allow access to Kubernetes API via port 6443 from the subnet.
      - Allow access to Kubernetes API via port 443 from the subnet.
      - Allow access to worker nodes via SSH from the allowed IP range.
+  EOF
+  type        = bool
+  default     = true
+}
+
+variable "enable_default_ingress_node_port" {
+  description = <<-EOF
+    - Allows incomming traffic from the Internet to the NodePort port range.
+  EOF
+  type        = bool
+  default     = true
+}
+
+variable "enable_default_egress_access" {
+  description = <<-EOF
+     - Allows all outgoing traffic. Nodes can connect to Yandex Container Registry, Yandex Object Storage, Docker Hub, etc.
   EOF
   type        = bool
   default     = true

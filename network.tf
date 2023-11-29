@@ -43,28 +43,48 @@ resource "yandex_vpc_security_group" "k8s_main_sg" {
     v4_cidr_blocks = ["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"]
   }
 
-  ingress {
-    protocol       = "TCP"
-    description    = "Rule allows incomming traffic from the Internet to the NodePort port range. Add ports or change existing ones to the required ports."
-    v4_cidr_blocks = ["0.0.0.0/0"]
-    from_port      = 30000
-    to_port        = 32767
+  egress {
+    protocol       = "ICMP"
+    description    = "Rule allows debugging ICMP packets to internal subnets."
+    v4_cidr_blocks = ["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"]
   }
 
   egress {
-    protocol       = "ANY"
-    description    = "Rule allows all outgoing traffic. Nodes can connect to Yandex Container Registry, Yandex Object Storage, Docker Hub, and so on."
-    v4_cidr_blocks = ["0.0.0.0/0"]
-    from_port      = 0
-    to_port        = 65535
+    protocol          = "ANY"
+    description       = "Rule allows master-node and node-node communication inside a security group."
+    predefined_target = "self_security_group"
+    from_port         = 0
+    to_port           = 65535
   }
+}
+
+resource "yandex_vpc_security_group_rule" "ingress_rule_node_port" {
+  count                  = var.enable_default_rules && var.enable_default_ingress_node_port ? 1 : 0
+  security_group_binding = yandex_vpc_security_group.k8s_main_sg[0].id
+  direction              = "ingress"
+  protocol               = "TCP"
+  description            = "Rule allows incomming traffic from the Internet to the NodePort port range. Add ports or change existing ones to the required ports."
+  v4_cidr_blocks         = ["0.0.0.0/0"]
+  from_port              = 30000
+  to_port                = 32767
+}
+
+resource "yandex_vpc_security_group_rule" "egress_rule_outgoing" {
+  count                  = var.enable_default_rules && var.enable_default_egress_access ? 1 : 0
+  security_group_binding = yandex_vpc_security_group.k8s_main_sg[0].id
+  direction              = "egress"
+  protocol               = "ANY"
+  description            = "Rule allows all outgoing traffic. Nodes can connect to Yandex Container Registry, Yandex Object Storage, Docker Hub, and so on."
+  v4_cidr_blocks         = ["0.0.0.0/0"]
+  from_port              = 0
+  to_port                = 65535
 }
 
 resource "yandex_vpc_security_group" "k8s_master_whitelist_sg" {
   count       = var.enable_default_rules ? 1 : 0
   folder_id   = local.folder_id
   name        = "k8s-master-whitelist-${random_string.unique_id.result}"
-  description = "Allow access to Kubernetes API from internet."
+  description = "Allow access to Kubernetes API from var.allowed_ips or internet."
   network_id  = var.network_id
 
   ingress {

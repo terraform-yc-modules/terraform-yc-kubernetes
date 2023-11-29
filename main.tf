@@ -10,10 +10,9 @@ locals {
 
   master_locations = length(var.master_locations) > 1 ? [] : var.master_locations
 
-  security_groups_list = concat(var.security_groups_ids_list, var.enable_default_rules == true ? [
+  master_security_groups_list = concat(var.security_groups_ids_list, var.enable_default_rules == true ? [
     yandex_vpc_security_group.k8s_main_sg[0].id,
     yandex_vpc_security_group.k8s_master_whitelist_sg[0].id,
-    yandex_vpc_security_group.k8s_nodes_ssh_access_sg[0].id
     ] : [], length(var.custom_ingress_rules) > 0 || length(var.custom_egress_rules) > 0 ? [
     yandex_vpc_security_group.k8s_custom_rules_sg[0].id
   ] : [])
@@ -74,7 +73,7 @@ resource "yandex_kubernetes_cluster" "kube_cluster" {
   master {
     version            = var.cluster_version
     public_ip          = var.public_access
-    security_group_ids = local.security_groups_list
+    security_group_ids = local.master_security_groups_list
 
     dynamic "zonal" {
       for_each = local.master_locations
