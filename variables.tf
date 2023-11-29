@@ -295,6 +295,7 @@ variable "node_groups" {
             max         = 4
             initial     = 2
           }
+          security_groups_list = [yandex_vpc_security_group.k8s_test.id]
           node_locations   = [
             {
               zone      = "ru-central1-b"
