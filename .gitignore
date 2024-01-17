@@ -33,3 +33,6 @@ terraform.rc
 
 # Zip archive
 *.zip
+
+# Workspace directory
+.vscode/*

@@ -1,7 +1,7 @@
 network_id              = "enpneopbt180nusgut3q"
 cluster_name            = "kube-regional-cluster"
 description             = "Kubernetes test cluster"
-cluster_version         = "1.23"
+cluster_version         = "1.27"
 public_access           = true
 create_kms              = true
 cluster_ipv4_range      = "172.17.0.0/16"

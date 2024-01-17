@@ -10,14 +10,6 @@ variable "network_id" {
   type        = string
 }
 
-variable "master_region" {
-  description = <<-EOF
-    Name of the region where the cluster will be created. This setting is required for regional cluster and not used for zonal cluster.
-  EOF
-  type        = string
-  default     = "ru-central1"
-}
-
 resource "random_string" "unique_id" {
   length  = 8
   upper   = false
@@ -230,7 +222,7 @@ variable "timeouts" {
     delete = "60m"
   }
 }
-#
+
 # Kubernetes Nodes Groups parameters
 #
 variable "node_groups" {
