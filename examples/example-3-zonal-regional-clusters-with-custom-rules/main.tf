@@ -2,7 +2,7 @@ module "kube_01" {
   source = "../../"
 
   cluster_name         = "kube-cluster-01"
-  network_id           = "enpneopbt180nusgut3q"
+  network_id           = "enpv53lp27m52o0be8lj"
   public_access        = false
   create_kms           = true
   service_account_name = "kube-01-service-account"
@@ -12,7 +12,7 @@ module "kube_01" {
   master_locations = [
     {
       zone      = "ru-central1-a"
-      subnet_id = "e9b5udt8asf9r9qn6nf6"
+      subnet_id = "e9bntituqauouau4bek3"
     }
   ]
 
@@ -41,7 +41,7 @@ module "kube_01" {
       }
     },
     "yc-k8s-ng-02" = {
-      version     = "1.22"
+      version     = "1.25"
       description = "Kubernetes nodes group 02"
       auto_scale = {
         min     = 3
@@ -109,10 +109,10 @@ module "kube_02" {
   source = "../../"
 
   cluster_name         = "kube-cluster-02"
-  cluster_version      = "1.23"
+  cluster_version      = "1.28"
   release_channel      = "REGULAR"
   folder_id            = "b1g4cr5d305a2bsm2im0"
-  network_id           = "enpneopbt180nusgut3q"
+  network_id           = "enpv53lp27m52o0be8lj"
   public_access        = true
   create_kms           = true
   enable_cilium_policy = true
@@ -125,15 +125,15 @@ module "kube_02" {
   master_locations = [
     {
       zone      = "ru-central1-a"
-      subnet_id = "e9b5udt8asf9r9qn6nf6"
+      subnet_id = "e9bntituqauouau4bek3"
     },
     {
       zone      = "ru-central1-b"
-      subnet_id = "e2lu07tr481h35012c8p"
+      subnet_id = "e2l4uju9nsorr7jhcegu"
     },
     {
-      zone      = "ru-central1-c"
-      subnet_id = "b0c7h1g3ffdcpee488at"
+      zone      = "ru-central1-d"
+      subnet_id = "fl8788ou1fs1111epdc4"
     }
   ]
 
@@ -192,27 +192,27 @@ module "kube_02" {
       max_expansion   = 2
       max_unavailable = 2
     },
-    "yc-k8s-ng-03" = {
-      description = "Kubernetes nodes group 03"
+    "yc-k8s-ng-031" = {
+      description = "Kubernetes nodes group 031"
       auto_scale = {
         min     = 1
         max     = 2
         initial = 2
       }
       node_labels = {
-        role        = "worker-03"
+        role        = "worker-031"
         environment = "testing"
       }
     },
-    "yc-k8s-ng-04" = {
-      description = "Kubernetes nodes group 04"
+    "yc-k8s-ng-041" = {
+      description = "Kubernetes nodes group 041"
       auto_scale = {
         min     = 1
         max     = 2
         initial = 2
       }
       node_labels = {
-        role        = "worker-04"
+        role        = "worker-041"
         environment = "testing"
       }
       max_expansion   = 1

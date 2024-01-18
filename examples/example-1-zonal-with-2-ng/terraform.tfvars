@@ -1,6 +1,5 @@
-
 cluster_name         = "kube-regional-cluster"
-cluster_version      = "1.23"
+cluster_version      = "1.27"
 description          = "Kubernetes test cluster"
 public_access        = true
 create_kms           = true

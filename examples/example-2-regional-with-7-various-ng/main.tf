@@ -1,20 +1,20 @@
 module "kube" {
   source = "../../"
 
-  network_id = "enpneopbt180nusgut3q"
+  network_id = "enpv53lp27m52o0be8lj"
 
   master_locations = [
     {
       zone      = "ru-central1-a"
-      subnet_id = "e9b5udt8asf9r9qn6nf6"
+      subnet_id = "e9bntituqauouau4bek3"
     },
     {
       zone      = "ru-central1-b"
-      subnet_id = "e2lu07tr481h35012c8p"
+      subnet_id = "e2l4uju9nsorr7jhcegu"
     },
     {
-      zone      = "ru-central1-c"
-      subnet_id = "b0c7h1g3ffdcpee488at"
+      zone      = "ru-central1-d"
+      subnet_id = "fl8788ou1fs1111epdc4"
     }
   ]
 
@@ -76,8 +76,8 @@ module "kube" {
       }
       node_locations = [
         {
-          zone      = "ru-central1-c"
-          subnet_id = "b0c7h1g3ffdcpee488at"
+          zone      = "ru-central1-d"
+          subnet_id = "fl8788ou1fs1111epdc4"
         }
       ]
       labels = {
@@ -115,7 +115,7 @@ module "kube" {
       node_locations = [
         {
           zone      = "ru-central1-b"
-          subnet_id = "e2lu07tr481h35012c8p"
+          subnet_id = "e2l4uju9nsorr7jhcegu"
         }
       ]
       labels = {

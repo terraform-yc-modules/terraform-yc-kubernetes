@@ -3,13 +3,6 @@ data "yandex_client_config" "client" {}
 locals {
   folder_id = var.folder_id == null ? data.yandex_client_config.client.folder_id : var.folder_id
 
-  master_regions = length(var.master_locations) > 1 ? [{
-    region    = var.master_region
-    locations = var.master_locations
-  }] : []
-
-  master_locations = length(var.master_locations) > 1 ? [] : var.master_locations
-
   security_groups_list = concat(var.security_groups_ids_list, var.enable_default_rules == true ? [
     yandex_vpc_security_group.k8s_main_sg[0].id,
     yandex_vpc_security_group.k8s_master_whitelist_sg[0].id,
@@ -76,25 +69,11 @@ resource "yandex_kubernetes_cluster" "kube_cluster" {
     public_ip          = var.public_access
     security_group_ids = local.security_groups_list
 
-    dynamic "zonal" {
-      for_each = local.master_locations
+    dynamic "master_location" {
+      for_each = var.master_locations
       content {
-        zone      = zonal.value["zone"]
-        subnet_id = zonal.value["subnet_id"]
-      }
-    }
-
-    dynamic "regional" {
-      for_each = local.master_regions
-      content {
-        region = regional.value["region"]
-        dynamic "location" {
-          for_each = regional.value["locations"]
-          content {
-            zone      = location.value["zone"]
-            subnet_id = location.value["subnet_id"]
-          }
-        }
+        subnet_id = master_location.value["subnet_id"]
+        zone      = master_location.value["zone"]
       }
     }
 
