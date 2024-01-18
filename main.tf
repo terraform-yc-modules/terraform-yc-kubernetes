@@ -73,7 +73,7 @@ resource "yandex_kubernetes_cluster" "kube_cluster" {
       for_each = var.master_locations
       content {
         subnet_id = master_location.value["subnet_id"]
-        zone = master_location.value["zone"]
+        zone      = master_location.value["zone"]
       }
     }
 
