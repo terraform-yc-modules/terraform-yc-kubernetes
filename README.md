@@ -171,6 +171,7 @@ No modules.
 | [yandex_resourcemanager_folder_iam_member.sa_node_group_public_role_admin](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/resourcemanager_folder_iam_member) | resource |
 | [yandex_resourcemanager_folder_iam_member.sa_public_loadbalancers_role](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/resourcemanager_folder_iam_member) | resource |
 | [yandex_vpc_security_group.k8s_custom_rules_sg](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/vpc_security_group) | resource |
+| [yandex_vpc_security_group.k8s_main_node_group_sg](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/vpc_security_group) | resource |
 | [yandex_vpc_security_group.k8s_main_sg](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/vpc_security_group) | resource |
 | [yandex_vpc_security_group.k8s_master_whitelist_sg](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/vpc_security_group) | resource |
 | [yandex_vpc_security_group.k8s_nodes_ssh_access_sg](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/vpc_security_group) | resource |
