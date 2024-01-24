@@ -408,7 +408,15 @@ variable "custom_ingress_rules" {
     ```
   EOF
   type        = any
-  default     = {}
+  default = {
+    "rule-1" = {
+      protocol       = "TCP"
+      description    = "Rule allows incoming traffic from the Internet to the NodePort port range. Add ports or change existing ones to the required ports."
+      v4_cidr_blocks = ["0.0.0.0/0"]
+      from_port      = 30000
+      to_port        = 32767
+    }
+  }
 }
 
 variable "custom_egress_rules" {
@@ -436,7 +444,15 @@ variable "custom_egress_rules" {
     ```
   EOF
   type        = any
-  default     = {}
+  default = {
+    "rule1" = {
+      protocol       = "ANY"
+      description    = "Rule allows all outgoing traffic. Nodes can connect to Yandex Container Registry, Yandex Object Storage, Docker Hub, and so on."
+      v4_cidr_blocks = ["0.0.0.0/0"]
+      from_port      = 0
+      to_port        = 65535
+    }
+  }
 }
 
 variable "allowed_ips" {

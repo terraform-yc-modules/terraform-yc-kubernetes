@@ -73,29 +73,6 @@ resource "yandex_vpc_security_group" "k8s_nodes_ssh_access_sg" {
   }
 }
 
-resource "yandex_vpc_security_group" "k8s_main_node_group_sg" {
-  count       = var.enable_default_rules ? 1 : 0
-  folder_id   = local.folder_id
-  name        = "k8s-node-group-security-main-${random_string.unique_id.result}"
-  description = "Main K8S security group for node groups"
-  network_id  = var.network_id
-  ingress {
-    protocol       = "TCP"
-    description    = "Rule allows incomming traffic from the Internet to the NodePort port range. Add ports or change existing ones to the required ports."
-    v4_cidr_blocks = ["0.0.0.0/0"]
-    from_port      = 30000
-    to_port        = 32767
-  }
-
-  egress {
-    protocol       = "ANY"
-    description    = "Rule allows all outgoing traffic. Nodes can connect to Yandex Container Registry, Yandex Object Storage, Docker Hub, and so on."
-    v4_cidr_blocks = ["0.0.0.0/0"]
-    from_port      = 0
-    to_port        = 65535
-  }
-}
-
 # This group defines custom security rules
 resource "yandex_vpc_security_group" "k8s_custom_rules_sg" {
   count       = length(var.custom_ingress_rules) > 0 || length(var.custom_egress_rules) > 0 ? 1 : 0
