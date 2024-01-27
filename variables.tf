@@ -204,6 +204,7 @@ variable "master_logging" {
     enabled_kube_apiserver = true
     enabled_autoscaler     = true
     enabled_events         = true
+    audit_enabled          = false
   }
 }
 
