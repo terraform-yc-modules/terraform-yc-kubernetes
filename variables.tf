@@ -367,11 +367,55 @@ variable "enable_default_rules" {
      - Allows master-to-node and node-to-node communication inside a security group.
      - Allows pod-to-pod and service-to-service communication.
      - Allows debugging ICMP packets from internal subnets.
-     - Allows incomming traffic from the Internet to the NodePort port range.
-     - Allows all outgoing traffic. Nodes can connect to Yandex Container Registry, Yandex Object Storage, Docker Hub, etc.
      - Allow access to Kubernetes API via port 6443 from the subnet.
      - Allow access to Kubernetes API via port 443 from the subnet.
-     - Allow access to worker nodes via SSH from the allowed IP range.
+  EOF
+  type        = bool
+  default     = true
+}
+
+variable "enable_node_ssh_access" {
+  description = <<-EOF
+    Enables creation of node ssh access rule.
+
+    ingress {
+      protocol       = "TCP"
+      description    = "Allow access to worker nodes via SSH from IP's."
+      v4_cidr_blocks = var.allowed_ips_ssh
+      port           = 22
+    }
+  EOF
+  type        = bool
+  default     = true
+}
+
+variable "enable_node_ports_rules" {
+  description = <<-EOF
+    Enables creation of NodePort port range rule.
+
+    "rule-1" = {
+      protocol       = "TCP"
+      description    = "Rule allows incoming traffic from the Internet to the NodePort port range. Add ports or change existing ones to the required ports."
+      v4_cidr_blocks = ["0.0.0.0/0"]
+      from_port      = 30000
+      to_port        = 32767
+    }
+  EOF
+  type        = bool
+  default     = true
+}
+
+variable "enable_outgoing_traffic" {
+  description = <<-EOF
+    Enables all outgoing traffic. Nodes can connect to Yandex Container Registry, Yandex Object Storage, Docker Hub, and so on..
+
+    "rule-1" = {
+      protocol       = "ANY"
+      description    = "Rule allows all outgoing traffic. Nodes can connect to Yandex Container Registry, Yandex Object Storage, Docker Hub, and so on."
+      v4_cidr_blocks = ["0.0.0.0/0"]
+      from_port      = 0
+      to_port        = 65535
+    }
   EOF
   type        = bool
   default     = true
@@ -408,15 +452,7 @@ variable "custom_ingress_rules" {
     ```
   EOF
   type        = any
-  default = {
-    "rule-1" = {
-      protocol       = "TCP"
-      description    = "Rule allows incoming traffic from the Internet to the NodePort port range. Add ports or change existing ones to the required ports."
-      v4_cidr_blocks = ["0.0.0.0/0"]
-      from_port      = 30000
-      to_port        = 32767
-    }
-  }
+  default     = {}
 }
 
 variable "custom_egress_rules" {
@@ -444,15 +480,7 @@ variable "custom_egress_rules" {
     ```
   EOF
   type        = any
-  default = {
-    "rule1" = {
-      protocol       = "ANY"
-      description    = "Rule allows all outgoing traffic. Nodes can connect to Yandex Container Registry, Yandex Object Storage, Docker Hub, and so on."
-      v4_cidr_blocks = ["0.0.0.0/0"]
-      from_port      = 0
-      to_port        = 65535
-    }
-  }
+  default     = {}
 }
 
 variable "allowed_ips" {

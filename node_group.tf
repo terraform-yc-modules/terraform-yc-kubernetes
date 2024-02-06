@@ -13,10 +13,15 @@ locals {
   master_locations_subnets_ids = concat(flatten([for location in var.master_locations : location.subnet_id]))
   node_group_security_groups_list = concat(var.security_groups_ids_list, var.enable_default_rules == true ? [
     yandex_vpc_security_group.k8s_main_sg[0].id,
-    yandex_vpc_security_group.k8s_nodes_ssh_access_sg[0].id
     ] : [], length(var.custom_ingress_rules) > 0 || length(var.custom_egress_rules) > 0 ? [
     yandex_vpc_security_group.k8s_custom_rules_sg[0].id
-  ] : [])
+    ] : [], concat(var.security_groups_ids_list, var.enable_node_ssh_access == true ? [
+      yandex_vpc_security_group.k8s_nodes_ssh_access_sg[0].id
+      ] : [], concat(var.security_groups_ids_list, var.enable_node_ports_rules == true ? [
+        yandex_vpc_security_group.k8s_node_ports[0].id
+        ] : [], concat(var.security_groups_ids_list, var.enable_outgoing_traffic == true ? [
+          yandex_vpc_security_group.k8s_outgoing_traffic[0].id
+  ] : []))))
 }
 
 resource "yandex_kubernetes_node_group" "kube_node_groups" {

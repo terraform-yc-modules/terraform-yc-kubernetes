@@ -59,7 +59,7 @@ resource "yandex_vpc_security_group" "k8s_master_whitelist_sg" {
 }
 
 resource "yandex_vpc_security_group" "k8s_nodes_ssh_access_sg" {
-  count       = var.enable_default_rules ? 1 : 0
+  count       = var.enable_node_ssh_access ? 1 : 0
   folder_id   = local.folder_id
   name        = "k8s-nodes-ssh-access-${random_string.unique_id.result}"
   description = "Allow connect to workers nodes from internet SSH."
@@ -70,6 +70,38 @@ resource "yandex_vpc_security_group" "k8s_nodes_ssh_access_sg" {
     description    = "Allow access to worker nodes via SSH from IP's."
     v4_cidr_blocks = var.allowed_ips_ssh
     port           = 22
+  }
+}
+
+resource "yandex_vpc_security_group" "k8s_node_ports" {
+  count       = var.enable_node_ports_rules ? 1 : 0
+  folder_id   = local.folder_id
+  name        = "k8s-node-ports-${random_string.unique_id.result}"
+  description = "Allow incoming traffic from the Internet to the NodePort port range."
+  network_id  = var.network_id
+
+  ingress {
+    protocol       = "TCP"
+    description    = "Rule allows incoming traffic from the Internet to the NodePort port range. Add ports or change existing ones to the required ports."
+    v4_cidr_blocks = ["0.0.0.0/0"]
+    from_port      = 30000
+    to_port        = 32767
+  }
+}
+
+resource "yandex_vpc_security_group" "k8s_outgoing_traffic" {
+  count       = var.enable_outgoing_traffic ? 1 : 0
+  folder_id   = local.folder_id
+  name        = "k8s-outgoing-traffic-${random_string.unique_id.result}"
+  description = "Allow all outgoing traffic."
+  network_id  = var.network_id
+
+  egress {
+    protocol       = "ANY"
+    description    = "Rule allows all outgoing traffic. Nodes can connect to Yandex Container Registry, Yandex Object Storage, Docker Hub, and so on."
+    v4_cidr_blocks = ["0.0.0.0/0"]
+    from_port      = 0
+    to_port        = 65535
   }
 }
 

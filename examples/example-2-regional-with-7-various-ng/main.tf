@@ -1,20 +1,20 @@
 module "kube" {
   source = "../../"
 
-  network_id = "enpv53lp27m52o0be8lj"
+  network_id = "enp9rm1debn7usfmtlnv"
 
   master_locations = [
     {
       zone      = "ru-central1-a"
-      subnet_id = "e9bntituqauouau4bek3"
+      subnet_id = "e9btfjlqo7dpjofkho1j"
     },
     {
       zone      = "ru-central1-b"
-      subnet_id = "e2l4uju9nsorr7jhcegu"
+      subnet_id = "e2l5ia8ggm3e8n99a6b2"
     },
     {
       zone      = "ru-central1-d"
-      subnet_id = "fl8788ou1fs1111epdc4"
+      subnet_id = "fl87ermplm09vqhcnnt7"
     }
   ]
 
