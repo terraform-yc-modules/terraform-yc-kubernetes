@@ -13,7 +13,7 @@ locals {
   master_locations_subnets_ids = concat(flatten([for location in var.master_locations : location.subnet_id]))
   node_group_security_groups_list = concat(var.security_groups_ids_list, var.enable_default_rules == true ? [
     yandex_vpc_security_group.k8s_main_sg[0].id
-  ] : [], split(",", yandex_vpc_security_group.k8s_nodes.id))
+  ] : [], [yandex_vpc_security_group.k8s_nodes.id])
 }
 
 resource "yandex_kubernetes_node_group" "kube_node_groups" {
