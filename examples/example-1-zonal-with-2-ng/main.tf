@@ -1,12 +1,12 @@
 module "kube" {
   source = "../../"
 
-  network_id = "enpv53lp27m52o0be8lj"
+  network_id = "enplrjpka3djib48vbbn"
 
   master_locations = [
     {
       zone      = "ru-central1-a"
-      subnet_id = "e9bntituqauouau4bek3"
+      subnet_id = "e9b78mtr5netksjfb2hf"
     }
   ]
 

@@ -11,6 +11,9 @@ locals {
     ])
   ]...) : []
   master_locations_subnets_ids = concat(flatten([for location in var.master_locations : location.subnet_id]))
+  node_group_security_groups_list = concat(var.security_groups_ids_list, var.enable_default_rules == true ? [
+    yandex_vpc_security_group.k8s_main_sg[0].id
+  ] : [], [yandex_vpc_security_group.k8s_nodes.id])
 }
 
 resource "yandex_kubernetes_node_group" "kube_node_groups" {
@@ -59,7 +62,7 @@ resource "yandex_kubernetes_node_group" "kube_node_groups" {
       nat                = lookup(each.value, "nat", var.node_groups_defaults.nat)
       ipv4               = lookup(each.value, "ipv4", var.node_groups_defaults.ipv4)
       ipv6               = lookup(each.value, "ipv6", var.node_groups_defaults.ipv6)
-      security_group_ids = local.security_groups_list
+      security_group_ids = local.node_group_security_groups_list
 
       dynamic "ipv4_dns_records" {
         for_each = lookup(each.value, "ipv4_dns_records_options", [])
