@@ -94,6 +94,7 @@ resource "yandex_kubernetes_cluster" "kube_cluster" {
       cluster_autoscaler_enabled = var.master_logging.enabled_autoscaler
       events_enabled             = var.master_logging.enabled_events
       audit_enabled              = var.master_logging.enabled_audit
+      log_group_id               = try(var.master_logging.log_group_id, null)
     }
   }
 
