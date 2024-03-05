@@ -205,7 +205,7 @@ variable "master_logging" {
     enabled_autoscaler     = true
     enabled_events         = true
     enabled_audit          = false
-    log_group_id = null
+    log_group_id           = null
   }
 }
 
