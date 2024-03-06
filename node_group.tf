@@ -92,6 +92,17 @@ resource "yandex_kubernetes_node_group" "kube_node_groups" {
         type = container_runtime.value
       }
     }
+
+    dynamic "gpu_settings" {
+      for_each = length(try(each.value.node_gpu_settings, {})) > 0 ? {
+        gpu_settings = each.value.node_gpu_settings
+      } : {}
+      content {
+        gpu_cluster_id  = try(gpu_settings.value.gpu_cluster_id, null)
+        gpu_environment = try(gpu_settings.value.gpu_environment, null)
+      }
+    }
+
     metadata = try(each.value.metadata, null)
   }
 

@@ -302,6 +302,34 @@ variable "node_groups" {
             role        = "worker-02"
             environment = "testing"
           }
+        },
+        "yc-k8s-ng-03" = {
+          description = "Kubernetes nodes group with GPU"
+          fixed_scale = {
+            size = 1
+          }
+          platform_id = "gpu-standard-v2"
+          node_gpus   = 2
+          node_gpu_settings = {
+            gpu_environment = "runc_drivers_cuda"
+          }
+          node_locations = [
+            {
+              zone      = "ru-central1-b"
+              subnet_id = "e2lu07tr481h35012c8p"
+            }
+          ]
+          labels = {
+            owner   = "example"
+            service = "kubernetes"
+          }
+          node_labels = {
+            role        = "worker-03"
+            environment = "gpu"
+          }
+          node_taints = [
+            "nvidia.com/gpu=:NoSchedule"
+          ]
         }
       }
     ```
