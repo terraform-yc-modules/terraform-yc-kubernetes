@@ -35,6 +35,14 @@ resource "yandex_vpc_security_group" "k8s_main_sg" {
     description    = "Rule allows debugging ICMP packets from internal subnets."
     v4_cidr_blocks = ["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"]
   }
+
+  egress {
+    protocol          = "ANY"
+    description       = "Rule allows master-node and node-node communication inside a security group."
+    predefined_target = "self_security_group"
+    from_port         = 0
+    to_port           = 65535
+  }
 }
 
 resource "yandex_vpc_security_group" "k8s_master_whitelist_sg" {
