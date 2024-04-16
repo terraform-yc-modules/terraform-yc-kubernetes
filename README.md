@@ -136,15 +136,15 @@ export YC_FOLDER_ID=$(yc config get folder-id)
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | > 3.3 |
 | <a name="requirement_time"></a> [time](#requirement\_time) | > 0.9 |
-| <a name="requirement_yandex"></a> [yandex](#requirement\_yandex) | >= 0.101.0 |
+| <a name="requirement_yandex"></a> [yandex](#requirement\_yandex) | >= 0.108 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_random"></a> [random](#provider\_random) | 3.6.0 |
+| <a name="provider_random"></a> [random](#provider\_random) | 3.6.1 |
 | <a name="provider_time"></a> [time](#provider\_time) | 0.11.1 |
-| <a name="provider_yandex"></a> [yandex](#provider\_yandex) | 0.114.0 |
+| <a name="provider_yandex"></a> [yandex](#provider\_yandex) | 0.115.0 |
 
 ## Modules
 
@@ -206,7 +206,7 @@ No modules.
 | <a name="input_master_auto_upgrade"></a> [master\_auto\_upgrade](#input\_master\_auto\_upgrade) | Boolean flag that specifies if master can be upgraded automatically. | `bool` | `true` | no |
 | <a name="input_master_labels"></a> [master\_labels](#input\_master\_labels) | Set of key/value label pairs to assign Kubernetes master nodes. | `map(string)` | `{}` | no |
 | <a name="input_master_locations"></a> [master\_locations](#input\_master\_locations) | List of locations where the cluster will be created. If the list contains only one<br>location, a zonal cluster will be created; if there are three locations, this will create a regional cluster.<br><br>Note: The master locations list may only have ONE or THREE locations. | <pre>list(object({<br>    zone      = string<br>    subnet_id = string<br>  }))</pre> | n/a | yes |
-| <a name="input_master_logging"></a> [master\_logging](#input\_master\_logging) | (Optional) Master logging options. | `map(any)` | <pre>{<br>  "enabled": true,<br>  "enabled_audit": false,<br>  "enabled_autoscaler": true,<br>  "enabled_events": true,<br>  "enabled_kube_apiserver": true,<br>  "folder_id": null,<br>  "log_group_id": null<br>}</pre> | no |
+| <a name="input_master_logging"></a> [master\_logging](#input\_master\_logging) | (Optional) Master logging options. | <pre>object({<br>    enabled                = optional(bool, true)<br>    folder_id              = optional(string, null)<br>    enabled_kube_apiserver = optional(bool, true)<br>    enabled_autoscaler     = optional(bool, true)<br>    enabled_events         = optional(bool, true)<br>    enabled_audit          = optional(bool, true)<br>    log_group_id           = optional(string, null)<br>  })</pre> | `{}` | no |
 | <a name="input_master_maintenance_windows"></a> [master\_maintenance\_windows](#input\_master\_maintenance\_windows) | List of structures that specifies maintenance windows,<br>    when auto update for the master is allowed.<br><br>    Example:<pre>master_maintenance_windows = [<br>      {<br>        day        = "monday"<br>        start_time = "23:00"<br>        duration   = "3h"<br>      }<br>    ]</pre> | `list(map(string))` | `[]` | no |
 | <a name="input_master_service_account_id"></a> [master\_service\_account\_id](#input\_master\_service\_account\_id) | Existing service account ID for control plane. | `string` | `null` | no |
 | <a name="input_network_acceleration_type"></a> [network\_acceleration\_type](#input\_network\_acceleration\_type) | Network acceleration type for the Kubernetes node group | `string` | `"standard"` | no |

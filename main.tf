@@ -89,12 +89,12 @@ resource "yandex_kubernetes_cluster" "kube_cluster" {
 
     master_logging {
       enabled                    = var.master_logging.enabled
-      folder_id                  = local.folder_id
+      folder_id                  = var.master_logging.log_group_id == null ? local.folder_id : null
       kube_apiserver_enabled     = var.master_logging.enabled_kube_apiserver
       cluster_autoscaler_enabled = var.master_logging.enabled_autoscaler
       events_enabled             = var.master_logging.enabled_events
       audit_enabled              = var.master_logging.enabled_audit
-      log_group_id               = try(var.master_logging.log_group_id, null)
+      log_group_id               = var.master_logging.log_group_id
     }
   }
 

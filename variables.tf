@@ -197,16 +197,16 @@ variable "master_maintenance_windows" {
 
 variable "master_logging" {
   description = "(Optional) Master logging options."
-  type        = map(any)
-  default = {
-    enabled                = true
-    folder_id              = null
-    enabled_kube_apiserver = true
-    enabled_autoscaler     = true
-    enabled_events         = true
-    enabled_audit          = false
-    log_group_id           = null
-  }
+  type = object({
+    enabled                = optional(bool, true)
+    folder_id              = optional(string, null)
+    enabled_kube_apiserver = optional(bool, true)
+    enabled_autoscaler     = optional(bool, true)
+    enabled_events         = optional(bool, true)
+    enabled_audit          = optional(bool, true)
+    log_group_id           = optional(string, null)
+  })
+  default = {}
 }
 
 variable "master_labels" {
