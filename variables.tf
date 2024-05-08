@@ -524,3 +524,28 @@ variable "allowed_ips_ssh" {
   type        = list(string)
   default     = ["0.0.0.0/0"]
 }
+variable "enable_oslogin_or_ssh_keys" {
+  description = "Enabling OS Login or adding ssh-keys to metadata of node-groups."
+  type        = map(any)
+  default = {
+    enable-oslogin = "false"
+    ssh-keys       = null
+  }
+  validation {
+    condition     = contains(["true", "false"], var.enable_oslogin_or_ssh_keys.enable-oslogin) && ((var.enable_oslogin_or_ssh_keys.enable-oslogin == "true" && var.enable_oslogin_or_ssh_keys.ssh-keys == null) || (var.enable_oslogin_or_ssh_keys.enable-oslogin == "false"))
+    error_message = "Either OS Login or ssh-keys should be enabled or none of them."
+  }
+}
+variable "custom_metadata" {
+  description = <<-EOF
+    Adding custom metadata to node-groups.
+    Example:
+    ```
+    custom_metadata = {
+      foo = "bar"
+    }
+    ```
+  EOF
+  type        = map(any)
+  default     = {}
+}
