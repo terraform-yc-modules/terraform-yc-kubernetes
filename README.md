@@ -25,6 +25,7 @@ The Kubernetes module requires the following input variables:
   - If an own location was not defined for a node group with the `auto scale` policy, the location for this group will be automatically generated from the master location list.
   - If the node group list has more than three groups, the locations for them will be assigned from the beginning of the master location list. This means all node groups will be distributed in the range of the master location list.
   - All three master locations will be used for the `fixed scale` node groups.
+  - When enabling OS Login for node-groups, you should have the external ip addresses for nodes (`var.node_groups_defaults.nat` must be `true`).
 
 ## Node Group definition
 
@@ -144,7 +145,7 @@ export YC_FOLDER_ID=$(yc config get folder-id)
 |------|---------|
 | <a name="provider_random"></a> [random](#provider\_random) | 3.6.1 |
 | <a name="provider_time"></a> [time](#provider\_time) | 0.11.1 |
-| <a name="provider_yandex"></a> [yandex](#provider\_yandex) | 0.115.0 |
+| <a name="provider_yandex"></a> [yandex](#provider\_yandex) | 0.117.0 |
 
 ## Modules
 
@@ -195,11 +196,13 @@ No modules.
 | <a name="input_create_kms"></a> [create\_kms](#input\_create\_kms) | Flag for enabling or disabling KMS key creation. | `bool` | `true` | no |
 | <a name="input_custom_egress_rules"></a> [custom\_egress\_rules](#input\_custom\_egress\_rules) | Map definition of custom security egress rules.<br><br>Example:<pre>custom_egress_rules = {<br>  "rule1" = {<br>    protocol       = "ANY"<br>    description    = "rule-1"<br>    v4_cidr_blocks = ["10.0.1.0/24", "10.0.2.0/24"]<br>    from_port      = 8090<br>    to_port        = 8099<br>  },<br>  "rule2" = {<br>    protocol       = "UDP"<br>    description    = "rule-2"<br>    v4_cidr_blocks = ["10.0.1.0/24"]<br>    from_port      = 8090<br>    to_port        = 8099<br>  }<br>}</pre> | `any` | `{}` | no |
 | <a name="input_custom_ingress_rules"></a> [custom\_ingress\_rules](#input\_custom\_ingress\_rules) | Map definition of custom security ingress rules.<br><br>Example:<pre>custom_ingress_rules = {<br>  "rule1" = {<br>    protocol = "TCP"<br>    description = "rule-1"<br>    v4_cidr_blocks = ["0.0.0.0/0"]<br>    from_port = 3000<br>    to_port = 32767<br>  },<br>  "rule2" = {<br>    protocol = "TCP"<br>    description = "rule-2"<br>    v4_cidr_blocks = ["0.0.0.0/0"]<br>    port = 443<br>  },<br>  "rule3" = {<br>    protocol = "TCP"<br>    description = "rule-3"<br>    predefined_target = "self_security_group"<br>    from_port         = 0<br>    to_port           = 65535<br>  }<br>}</pre> | `any` | `{}` | no |
+| <a name="input_custom_metadata"></a> [custom\_metadata](#input\_custom\_metadata) | Adding custom metadata to node-groups.<br>Example:<pre>custom_metadata = {<br>  foo = "bar"<br>}</pre> | `map(any)` | `{}` | no |
 | <a name="input_description"></a> [description](#input\_description) | Description of the Kubernetes cluster. | `string` | `"Yandex Managed K8S cluster"` | no |
 | <a name="input_enable_cilium_policy"></a> [enable\_cilium\_policy](#input\_enable\_cilium\_policy) | Flag for enabling or disabling Cilium CNI. | `bool` | `false` | no |
 | <a name="input_enable_default_rules"></a> [enable\_default\_rules](#input\_enable\_default\_rules) | Manages creation of default security rules.<br><br>Default security rules:<br> - Allow all incoming traffic from any protocol.<br> - Allows master-to-node and node-to-node communication inside a security group.<br> - Allows pod-to-pod and service-to-service communication.<br> - Allows debugging ICMP packets from internal subnets.<br> - Allow access to Kubernetes API via port 6443 from the subnet.<br> - Allow access to Kubernetes API via port 443 from the subnet. | `bool` | `true` | no |
 | <a name="input_enable_node_ports_rules"></a> [enable\_node\_ports\_rules](#input\_enable\_node\_ports\_rules) | Enables creation of NodePort port range rule.<br><br>"rule-1" = {<br>  protocol       = "TCP"<br>  description    = "Rule allows incoming traffic from the Internet to the NodePort port range. Add ports or change existing ones to the required ports."<br>  v4\_cidr\_blocks = ["0.0.0.0/0"]<br>  from\_port      = 30000<br>  to\_port        = 32767<br>} | `bool` | `true` | no |
 | <a name="input_enable_node_ssh_access"></a> [enable\_node\_ssh\_access](#input\_enable\_node\_ssh\_access) | Enables creation of node ssh access rule.<br><br>ingress {<br>  protocol       = "TCP"<br>  description    = "Allow access to worker nodes via SSH from IP's."<br>  v4\_cidr\_blocks = var.allowed\_ips\_ssh<br>  port           = 22<br>} | `bool` | `true` | no |
+| <a name="input_enable_oslogin_or_ssh_keys"></a> [enable\_oslogin\_or\_ssh\_keys](#input\_enable\_oslogin\_or\_ssh\_keys) | Enabling OS Login or adding ssh-keys to metadata of node-groups. | `map(any)` | <pre>{<br>  "enable-oslogin": "false",<br>  "ssh-keys": null<br>}</pre> | no |
 | <a name="input_enable_outgoing_traffic"></a> [enable\_outgoing\_traffic](#input\_enable\_outgoing\_traffic) | Enables all outgoing traffic. Nodes can connect to Yandex Container Registry, Yandex Object Storage, Docker Hub, and so on..<br><br>"rule-1" = {<br>  protocol       = "ANY"<br>  description    = "Rule allows all outgoing traffic. Nodes can connect to Yandex Container Registry, Yandex Object Storage, Docker Hub, and so on."<br>  v4\_cidr\_blocks = ["0.0.0.0/0"]<br>  from\_port      = 0<br>  to\_port        = 65535<br>} | `bool` | `true` | no |
 | <a name="input_folder_id"></a> [folder\_id](#input\_folder\_id) | The ID of the folder that the Kubernetes cluster belongs to. | `string` | `null` | no |
 | <a name="input_kms_key"></a> [kms\_key](#input\_kms\_key) | KMS symmetric key parameters. | `any` | `{}` | no |

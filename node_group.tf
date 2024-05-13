@@ -28,6 +28,8 @@ resource "yandex_kubernetes_node_group" "kube_node_groups" {
   instance_template {
     platform_id = lookup(each.value, "platform_id", var.node_groups_defaults.platform_id)
 
+    metadata = merge(var.enable_oslogin_or_ssh_keys, var.custom_metadata)
+
     resources {
       cores         = lookup(each.value, "node_cores", var.node_groups_defaults.node_cores)
       core_fraction = lookup(each.value, "core_fraction", var.node_groups_defaults.core_fraction)
@@ -102,8 +104,6 @@ resource "yandex_kubernetes_node_group" "kube_node_groups" {
         gpu_environment = try(gpu_settings.value.gpu_environment, null)
       }
     }
-
-    metadata = try(each.value.metadata, null)
   }
 
   node_labels            = try(each.value.node_labels, null)
