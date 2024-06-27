@@ -20,7 +20,7 @@ module "kube" {
 
   node_groups = {
     "yc-k8s-ng-01" = {
-      description = "Kubernetes nodes group 01 with fixed 1 size scaling"
+      description = "Kubernetes nodes group 01 with auto scaling"
       auto_scale = {
         min     = 2
         max     = 4
@@ -28,7 +28,7 @@ module "kube" {
       }
     },
     "yc-k8s-ng-02" = {
-      description = "Kubernetes nodes group 02 with auto scaling"
+      description = "Kubernetes nodes group 02 with fixed size scaling"
       fixed_scale = {
         size = 3
       }
