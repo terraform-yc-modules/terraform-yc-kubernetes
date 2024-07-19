@@ -252,7 +252,7 @@ variable "node_groups" {
       node_gpus       = 0
       core_fraction   = 100
       disk_type       = "network-ssd"
-      disk_size       = 32
+      disk_size       = 64
       preemptible     = false
       nat             = false
       auto_repair     = true
@@ -348,7 +348,7 @@ variable "node_groups_defaults" {
     node_gpus     = 0
     core_fraction = 100
     disk_type     = "network-ssd"
-    disk_size     = 32
+    disk_size     = 64
     preemptible   = false
     nat           = false
     ipv4          = true

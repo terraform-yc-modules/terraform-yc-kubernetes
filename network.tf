@@ -43,6 +43,14 @@ resource "yandex_vpc_security_group" "k8s_main_sg" {
     from_port         = 0
     to_port           = 65535
   }
+
+  egress {
+    protocol       = "ANY"
+    description    = "Rule allows pod-pod and service-service communication inside a security group. Indicate your IP ranges."
+    v4_cidr_blocks = [var.cluster_ipv4_range, var.service_ipv4_range]
+    from_port      = 0
+    to_port        = 65535
+  }
 }
 
 resource "yandex_vpc_security_group" "k8s_master_whitelist_sg" {
