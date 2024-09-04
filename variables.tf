@@ -215,7 +215,6 @@ variable "master_labels" {
   default     = {}
 }
 
-
 variable "timeouts" {
   description = "Timeouts."
   type        = map(string)
