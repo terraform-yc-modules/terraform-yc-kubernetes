@@ -28,6 +28,8 @@ resource "yandex_kubernetes_node_group" "kube_node_groups" {
   instance_template {
     platform_id = lookup(each.value, "platform_id", var.node_groups_defaults.platform_id)
 
+    labels = lookup(each.value, "instance_labels", {})
+
     metadata = merge(var.enable_oslogin_or_ssh_keys, var.custom_metadata)
 
     resources {

@@ -215,6 +215,7 @@ variable "master_labels" {
   default     = {}
 }
 
+
 variable "timeouts" {
   description = "Timeouts."
   type        = map(string)
@@ -302,6 +303,10 @@ variable "node_groups" {
           node_labels   = {
             role        = "worker-02"
             environment = "testing"
+          }
+          instance_labels = {
+            managed_by  = "terraform"
+            environment = "stage"
           }
         },
         "yc-k8s-ng-03" = {
