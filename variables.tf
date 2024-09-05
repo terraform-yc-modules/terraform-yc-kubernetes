@@ -303,6 +303,10 @@ variable "node_groups" {
             role        = "worker-02"
             environment = "testing"
           }
+          instance_labels = {
+            managed_by  = "terraform"
+            environment = "stage"
+          }
         },
         "yc-k8s-ng-03" = {
           description = "Kubernetes nodes group with GPU"
