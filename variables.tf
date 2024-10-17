@@ -346,6 +346,7 @@ variable "node_groups_defaults" {
   description = "Map of common default values for Node groups."
   type        = map(any)
   default = {
+    template_name = "{instance_group.id}-{instance.short_id}"
     platform_id   = "standard-v3"
     node_cores    = 4
     node_memory   = 8

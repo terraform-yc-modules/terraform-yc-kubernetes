@@ -26,11 +26,10 @@ resource "yandex_kubernetes_node_group" "kube_node_groups" {
   labels      = lookup(each.value, "labels", {})
 
   instance_template {
+    name        = lookup(each.value, "template_name", var.node_groups_defaults.template_name)
     platform_id = lookup(each.value, "platform_id", var.node_groups_defaults.platform_id)
-
-    labels = lookup(each.value, "instance_labels", {})
-
-    metadata = merge(var.enable_oslogin_or_ssh_keys, var.custom_metadata)
+    labels      = lookup(each.value, "instance_labels", {})
+    metadata    = merge(var.enable_oslogin_or_ssh_keys, var.custom_metadata)
 
     resources {
       cores         = lookup(each.value, "node_cores", var.node_groups_defaults.node_cores)
