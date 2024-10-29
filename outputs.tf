@@ -106,3 +106,11 @@ output "service_account_id" {
   EOF
   value       = try(yandex_iam_service_account.master[0].id, "")
 }
+
+# Nodes security group id
+output "nodes_security_group_ids" {
+  description = <<EOF
+    Security groups IDs created for nodes in Kubernetes cluster.
+  EOF
+  value       = local.node_group_security_groups_list
+}
