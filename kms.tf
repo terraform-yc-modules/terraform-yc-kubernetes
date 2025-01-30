@@ -7,7 +7,7 @@ resource "yandex_kms_symmetric_key" "kms_key" {
   count             = var.create_kms ? 1 : 0
   folder_id         = local.folder_id
   name              = local.kms_key_with_id
-  description       = lookup(var.kms_key, "description", "K8S KMS symetric key")
+  description       = lookup(var.kms_key, "description", "K8S KMS symmetric key")
   default_algorithm = lookup(var.kms_key, "default_algorithm", "AES_256")
   rotation_period   = lookup(var.kms_key, "rotation_period", "8760h")
 }
