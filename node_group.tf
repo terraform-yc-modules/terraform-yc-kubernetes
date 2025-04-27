@@ -11,9 +11,13 @@ locals {
     ])
   ]...) : []
   master_locations_subnets_ids = concat(flatten([for location in var.master_locations : location.subnet_id]))
-  node_group_security_groups_list = concat(var.security_groups_ids_list, var.enable_default_rules == true ? [
-    yandex_vpc_security_group.k8s_main_sg[0].id
-  ] : [], [yandex_vpc_security_group.k8s_nodes.id])
+  # For backward compatibility
+  effective_node_sg_ids = length(var.node_security_group_ids_list) > 0 ? var.node_security_group_ids_list : var.security_groups_ids_list
+
+  node_group_security_groups_list = concat(local.effective_node_sg_ids, var.enable_default_rules == true ? [
+    yandex_vpc_security_group.k8s_main_sg[0].id,
+    yandex_vpc_security_group.k8s_nodes[0].id
+  ] : [])
 }
 
 resource "yandex_kubernetes_node_group" "kube_node_groups" {
