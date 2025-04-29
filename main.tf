@@ -3,7 +3,10 @@ data "yandex_client_config" "client" {}
 locals {
   folder_id = var.folder_id == null ? data.yandex_client_config.client.folder_id : var.folder_id
 
-  master_security_groups_list = concat(var.security_groups_ids_list, var.enable_default_rules == true ? [
+  # For backward compatibility
+  effective_master_sg_ids = length(var.master_security_group_ids_list) > 0 ? var.master_security_group_ids_list : var.security_groups_ids_list
+
+  master_security_groups_list = concat(local.effective_master_sg_ids, var.enable_default_rules == true ? [
     yandex_vpc_security_group.k8s_main_sg[0].id,
     yandex_vpc_security_group.k8s_master_whitelist_sg[0].id
   ] : [])

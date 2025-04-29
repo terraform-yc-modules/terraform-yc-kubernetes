@@ -75,6 +75,7 @@ resource "yandex_vpc_security_group" "k8s_master_whitelist_sg" {
 }
 
 resource "yandex_vpc_security_group" "k8s_nodes" {
+  count       = var.enable_default_rules ? 1 : 0
   folder_id   = local.folder_id
   name        = "k8s-nodes-${random_string.unique_id.result}"
   description = "Security group rules for node groups"
@@ -82,8 +83,8 @@ resource "yandex_vpc_security_group" "k8s_nodes" {
 }
 
 resource "yandex_vpc_security_group_rule" "k8s_node_ssh_access_rule" {
-  count                  = var.enable_node_ssh_access ? 1 : 0
-  security_group_binding = yandex_vpc_security_group.k8s_nodes.id
+  count                  = var.enable_default_rules && var.enable_node_ssh_access ? 1 : 0
+  security_group_binding = yandex_vpc_security_group.k8s_nodes[0].id
   direction              = "ingress"
   description            = "Allow access to worker nodes via SSH from IP's."
   v4_cidr_blocks         = var.allowed_ips_ssh
@@ -92,8 +93,8 @@ resource "yandex_vpc_security_group_rule" "k8s_node_ssh_access_rule" {
 }
 
 resource "yandex_vpc_security_group_rule" "k8s_node_ports" {
-  count                  = var.enable_node_ports_rules ? 1 : 0
-  security_group_binding = yandex_vpc_security_group.k8s_nodes.id
+  count                  = var.enable_default_rules && var.enable_node_ports_rules ? 1 : 0
+  security_group_binding = yandex_vpc_security_group.k8s_nodes[0].id
   direction              = "ingress"
   description            = "Rule allows incoming traffic from the Internet to the NodePort port range. Add ports or change existing ones to the required ports."
   v4_cidr_blocks         = ["0.0.0.0/0"]
@@ -103,8 +104,8 @@ resource "yandex_vpc_security_group_rule" "k8s_node_ports" {
 }
 
 resource "yandex_vpc_security_group_rule" "k8s_outgoing_traffic" {
-  count                  = var.enable_outgoing_traffic ? 1 : 0
-  security_group_binding = yandex_vpc_security_group.k8s_nodes.id
+  count                  = var.enable_default_rules && var.enable_outgoing_traffic ? 1 : 0
+  security_group_binding = yandex_vpc_security_group.k8s_nodes[0].id
   direction              = "egress"
   description            = "Rule allows all outgoing traffic. Nodes can connect to Yandex Container Registry, Yandex Object Storage, Docker Hub, and so on."
   v4_cidr_blocks         = ["0.0.0.0/0"]
@@ -115,9 +116,9 @@ resource "yandex_vpc_security_group_rule" "k8s_outgoing_traffic" {
 
 # Custom security group rules
 resource "yandex_vpc_security_group_rule" "ingress_rules" {
-  for_each = var.custom_ingress_rules
+  for_each = var.enable_default_rules ? var.custom_ingress_rules : {}
 
-  security_group_binding = yandex_vpc_security_group.k8s_nodes.id
+  security_group_binding = yandex_vpc_security_group.k8s_nodes[0].id
   direction              = "ingress"
   description            = lookup(each.value, "description", null)
   v4_cidr_blocks         = lookup(each.value, "v4_cidr_blocks", [])
@@ -128,9 +129,9 @@ resource "yandex_vpc_security_group_rule" "ingress_rules" {
 }
 
 resource "yandex_vpc_security_group_rule" "egress_rules" {
-  for_each = var.custom_egress_rules
+  for_each = var.enable_default_rules ? var.custom_egress_rules : {}
 
-  security_group_binding = yandex_vpc_security_group.k8s_nodes.id
+  security_group_binding = yandex_vpc_security_group.k8s_nodes[0].id
   direction              = "egress"
   description            = lookup(each.value, "description", null)
   v4_cidr_blocks         = lookup(each.value, "v4_cidr_blocks", [])

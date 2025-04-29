@@ -34,7 +34,7 @@ module "addons" {
   cluster_id = module.kube.cluster_id
 
   install_nodelocal_dns = true
-  
+
   # Full usage example:
   # https://github.com/terraform-yc-modules/terraform-yc-kubernetes-marketplace/tree/main/examples/full
 }

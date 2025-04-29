@@ -164,7 +164,21 @@ variable "master_locations" {
 }
 
 variable "security_groups_ids_list" {
-  description = "List of security group IDs to which the Kubernetes cluster belongs"
+  description = "List of security group IDs to which the Kubernetes cluster belongs (deprecated, use master_security_group_ids_list and node_security_group_ids_list instead)"
+  type        = list(string)
+  default     = []
+  nullable    = true
+}
+
+variable "master_security_group_ids_list" {
+  description = "List of security group IDs to which the Kubernetes master belongs"
+  type        = list(string)
+  default     = []
+  nullable    = true
+}
+
+variable "node_security_group_ids_list" {
+  description = "List of security group IDs to which the Kubernetes nodes belong"
   type        = list(string)
   default     = []
   nullable    = true
