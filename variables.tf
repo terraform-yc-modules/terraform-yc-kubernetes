@@ -229,6 +229,27 @@ variable "master_labels" {
   default     = {}
 }
 
+variable "master_scale_policy" {
+  description = <<EOF
+    Auto scale policy for the master.
+    
+    Example:
+    ```
+    master_scale_policy = {
+      auto_scale = {
+        min_resource_preset_id = "s-c2-m8"
+      }
+    }
+    ```
+  EOF
+  type = object({
+    auto_scale = object({
+      min_resource_preset_id = optional(string, "s-c2-m8")
+    })
+  })
+  default = null
+}
+
 variable "timeouts" {
   description = "Timeouts."
   type        = map(string)

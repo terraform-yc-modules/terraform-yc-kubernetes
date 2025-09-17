@@ -72,6 +72,18 @@ resource "yandex_vpc_security_group" "k8s_master_whitelist_sg" {
     v4_cidr_blocks = var.allowed_ips
     port           = 443
   }
+  egress {
+    protocol       = "UDP"
+    description    = "Allows masters to connect to NTP servers for time synchronization"
+    v4_cidr_blocks = var.allowed_ips
+    port           = 123
+  }
+  egress {
+    protocol       = "TCP"
+    description    = "Allows traffic to be passed between the master and metric-server pods"
+    v4_cidr_blocks = [var.cluster_ipv4_range]
+    port           = 4443
+  }
 }
 
 resource "yandex_vpc_security_group" "k8s_nodes" {
