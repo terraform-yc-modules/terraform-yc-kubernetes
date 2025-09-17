@@ -77,6 +77,18 @@ resource "yandex_kubernetes_cluster" "kube_cluster" {
       }
     }
 
+    dynamic "scale_policy" {
+      for_each = var.master_scale_policy != null ? [var.master_scale_policy] : []
+      content {
+        dynamic "auto_scale" {
+          for_each = scale_policy.value.auto_scale != null ? [scale_policy.value.auto_scale] : []
+          content {
+            min_resource_preset_id = auto_scale.value.min_resource_preset_id
+          }
+        }
+      }
+    }
+
     maintenance_policy {
       auto_upgrade = var.master_auto_upgrade
 
