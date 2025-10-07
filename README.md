@@ -145,7 +145,7 @@ export YC_FOLDER_ID=$(yc config get folder-id)
 |------|---------|
 | <a name="provider_random"></a> [random](#provider\_random) | 3.7.2 |
 | <a name="provider_time"></a> [time](#provider\_time) | 0.13.1 |
-| <a name="provider_yandex"></a> [yandex](#provider\_yandex) | 0.159.0 |
+| <a name="provider_yandex"></a> [yandex](#provider\_yandex) | 0.162.0 |
 
 ## Modules
 
@@ -211,7 +211,7 @@ No modules.
 | <a name="input_master_locations"></a> [master\_locations](#input\_master\_locations) | List of locations where the cluster will be created. If the list contains only one<br/>location, a zonal cluster will be created; if there are three locations, this will create a regional cluster.<br/><br/>Note: The master locations list may only have ONE or THREE locations. | <pre>list(object({<br/>    zone      = string<br/>    subnet_id = string<br/>  }))</pre> | n/a | yes |
 | <a name="input_master_logging"></a> [master\_logging](#input\_master\_logging) | (Optional) Master logging options. | <pre>object({<br/>    enabled                = optional(bool, true)<br/>    folder_id              = optional(string, null)<br/>    enabled_kube_apiserver = optional(bool, true)<br/>    enabled_autoscaler     = optional(bool, true)<br/>    enabled_events         = optional(bool, true)<br/>    enabled_audit          = optional(bool, true)<br/>    log_group_id           = optional(string, null)<br/>  })</pre> | `{}` | no |
 | <a name="input_master_maintenance_windows"></a> [master\_maintenance\_windows](#input\_master\_maintenance\_windows) | List of structures that specifies maintenance windows,<br/>    when auto update for the master is allowed.<br/><br/>    Example:<pre>master_maintenance_windows = [<br/>      {<br/>        day        = "monday"<br/>        start_time = "23:00"<br/>        duration   = "3h"<br/>      }<br/>    ]</pre> | `list(map(string))` | `[]` | no |
-| <a name="input_master_scale_policy"></a> [master\_scale\_policy](#input\_master\_scale\_policy) | Auto scale policy for the master.<br/><br/>    Example:<pre>master_scale_policy = {<br/>      auto_scale = {<br/>        min_resource_preset_id = "s-c2-m8"<br/>      }<br/>    }</pre> | <pre>object({<br/>    auto_scale = object({<br/>      min_resource_preset_id = optional(string, "s-c2-m8")<br/>    })<br/>  })</pre> | `null` | no |
+| <a name="input_master_scale_policy"></a> [master\_scale\_policy](#input\_master\_scale\_policy) | Minimum resource preset ID for master auto scale policy.<br/><br/>    Example:<pre>master_scale_policy = "s-c4-m16"</pre> | `string` | `null` | no |
 | <a name="input_master_security_group_ids_list"></a> [master\_security\_group\_ids\_list](#input\_master\_security\_group\_ids\_list) | List of security group IDs to which the Kubernetes master belongs | `list(string)` | `[]` | no |
 | <a name="input_master_service_account_id"></a> [master\_service\_account\_id](#input\_master\_service\_account\_id) | Existing service account ID for control plane. | `string` | `null` | no |
 | <a name="input_network_acceleration_type"></a> [network\_acceleration\_type](#input\_network\_acceleration\_type) | Network acceleration type for the Kubernetes node group | `string` | `"standard"` | no |

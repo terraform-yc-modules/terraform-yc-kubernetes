@@ -27,12 +27,6 @@ module "kube_01" {
     service     = "kubernetes"
   }
 
-  master_scale_policy = {
-    auto_scale = {
-      min_resource_preset_id = "s-c2-m8"
-    }
-  }
-
   node_groups = {
     "yc-k8s-ng-01" = {
       description = "Kubernetes nodes group 01"
@@ -154,11 +148,7 @@ module "kube_02" {
     service     = "kubernetes"
   }
 
-  master_scale_policy = {
-    auto_scale = {
-      min_resource_preset_id = "s-c4-m16"
-    }
-  }
+  master_scale_policy = "s-c4-m16"
 
   master_maintenance_windows = [
     {
