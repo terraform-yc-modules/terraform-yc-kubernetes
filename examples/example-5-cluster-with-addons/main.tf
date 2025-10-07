@@ -18,12 +18,6 @@ module "kube" {
     }
   ]
 
-  master_scale_policy = {
-    auto_scale = {
-      min_resource_preset_id = "s-c2-m8"
-    }
-  }
-
   node_groups = {
     "yc-k8s-ng" = {
       description = "Kubernetes node group with fixed size scaling"
@@ -35,7 +29,7 @@ module "kube" {
 }
 
 module "addons" {
-  source = "github.com/terraform-yc-modules/terraform-yc-kubernetes-marketplace"
+  source = "github.com/terraform-yc-modules/terraform-yc-kubernetes-marketplace?ref=1.0.0"
 
   cluster_id = module.kube.cluster_id
 

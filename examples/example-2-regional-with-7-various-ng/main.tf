@@ -18,12 +18,6 @@ module "kube" {
     }
   ]
 
-  master_scale_policy = {
-    auto_scale = {
-      min_resource_preset_id = "s-c4-m16"
-    }
-  }
-
   node_groups = {
     "yc-k8s-ng-01" = {
       description = "Kubernetes nodes group 01"

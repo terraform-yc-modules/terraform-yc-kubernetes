@@ -231,23 +231,15 @@ variable "master_labels" {
 
 variable "master_scale_policy" {
   description = <<EOF
-    Auto scale policy for the master.
+    Minimum resource preset ID for master auto scale policy.
     
     Example:
     ```
-    master_scale_policy = {
-      auto_scale = {
-        min_resource_preset_id = "s-c2-m8"
-      }
-    }
+    master_scale_policy = "s-c4-m16"
     ```
   EOF
-  type = object({
-    auto_scale = object({
-      min_resource_preset_id = optional(string, "s-c2-m8")
-    })
-  })
-  default = null
+  type        = string
+  default     = null
 }
 
 variable "timeouts" {
@@ -261,7 +253,6 @@ variable "timeouts" {
 }
 
 # Kubernetes Nodes Groups parameters
-#
 variable "node_groups" {
   description = <<EOF
     Kubernetes node groups map of maps. It could contain all parameters of yandex_kubernetes_node_group resource,

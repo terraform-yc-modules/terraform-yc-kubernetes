@@ -18,11 +18,7 @@ module "kube" {
     }
   ]
 
-  master_scale_policy = {
-    auto_scale = {
-      min_resource_preset_id = "s-c2-m8"
-    }
-  }
+  master_scale_policy = "s-c4-m16"
 
   node_groups = {
     "yc-k8s-ng-01" = {

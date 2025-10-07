@@ -1,12 +1,12 @@
 module "kube" {
   source = "../../"
 
-  network_id = "enpv53lp27m52o0be8lj"
+  network_id = "enp9rm1debn7usfmtlnv"
 
   master_locations = [
     {
       zone      = "ru-central1-a"
-      subnet_id = "e9bntituqauouau4bek3"
+      subnet_id = "e9btfjlqo7dpjofkho1j"
     }
   ]
 
@@ -17,12 +17,6 @@ module "kube" {
       duration   = "3h"
     }
   ]
-
-  master_scale_policy = {
-    auto_scale = {
-      min_resource_preset_id = "s-c2-m8"
-    }
-  }
 
   node_groups = {
     "yc-k8s-ng-01" = {
