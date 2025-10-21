@@ -69,7 +69,7 @@ resource "yandex_kubernetes_node_group" "kube_node_groups" {
       nat                = lookup(each.value, "nat", var.node_groups_defaults.nat)
       ipv4               = lookup(each.value, "ipv4", var.node_groups_defaults.ipv4)
       ipv6               = lookup(each.value, "ipv6", var.node_groups_defaults.ipv6)
-      security_group_ids = local.node_group_security_groups_list
+      security_group_ids = lookup(each.value, "node_group_security_groups_list", local.node_group_security_groups_list)
 
       dynamic "ipv4_dns_records" {
         for_each = lookup(each.value, "ipv4_dns_records_options", [])
