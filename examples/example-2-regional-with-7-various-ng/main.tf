@@ -18,6 +18,11 @@ module "kube" {
     }
   ]
 
+  # Apply security groups for all node groups connected to the cluster.
+  node_security_group_ids_list = [
+    "enp9ood3t0m1ll58ur9k"
+  ]
+
   node_groups = {
     "yc-k8s-ng-01" = {
       description = "Kubernetes nodes group 01"
@@ -136,6 +141,10 @@ module "kube" {
         owner   = "example"
         service = "kubernetes"
       }
+      # Apply security group only for this node group (yc-k8s-ng-07).
+      node_group_security_groups_list = [
+        "enp7eashfg3gfa1018b1"
+      ]
       node_labels = {
         role        = "worker-07"
         environment = "testing"
