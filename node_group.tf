@@ -66,13 +66,10 @@ resource "yandex_kubernetes_node_group" "kube_node_groups" {
           for location in local.auto_node_groups_locations : [location.subnet_id] if location.node_group_name == each.key
       ]) : local.master_locations_subnets_ids
 
-      nat  = lookup(each.value, "nat", var.node_groups_defaults.nat)
-      ipv4 = lookup(each.value, "ipv4", var.node_groups_defaults.ipv4)
-      ipv6 = lookup(each.value, "ipv6", var.node_groups_defaults.ipv6)
-      security_group_ids = concat(
-        lookup(each.value, "node_group_security_groups_list", []),
-        local.node_group_security_groups_list
-      )
+      nat                = lookup(each.value, "nat", var.node_groups_defaults.nat)
+      ipv4               = lookup(each.value, "ipv4", var.node_groups_defaults.ipv4)
+      ipv6               = lookup(each.value, "ipv6", var.node_groups_defaults.ipv6)
+      security_group_ids = lookup(each.value, "node_group_security_groups_list", local.node_group_security_groups_list)
 
       dynamic "ipv4_dns_records" {
         for_each = lookup(each.value, "ipv4_dns_records_options", [])
