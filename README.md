@@ -137,7 +137,7 @@ export YC_FOLDER_ID=$(yc config get folder-id)
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | > 3.3 |
 | <a name="requirement_time"></a> [time](#requirement\_time) | > 0.9 |
-| <a name="requirement_yandex"></a> [yandex](#requirement\_yandex) | >= 0.108 |
+| <a name="requirement_yandex"></a> [yandex](#requirement\_yandex) | >= 0.147 |
 
 ## Providers
 
