@@ -38,7 +38,7 @@ module "kube" {
         owner   = "example"
         service = "kubernetes"
       }
-      node_labels = {
+      instance_labels = {
         role        = "worker-01"
         environment = "testing"
       }
@@ -54,7 +54,7 @@ module "kube" {
         owner   = "example"
         service = "kubernetes"
       }
-      node_labels = {
+      instance_labels = {
         role        = "worker-02"
         environment = "testing"
       }
@@ -70,7 +70,7 @@ module "kube" {
         owner   = "example"
         service = "kubernetes"
       }
-      node_labels = {
+      instance_labels = {
         role        = "worker-03"
         environment = "testing"
       }
@@ -92,7 +92,7 @@ module "kube" {
         owner   = "example"
         service = "kubernetes"
       }
-      node_labels = {
+      instance_labels = {
         role        = "worker-04"
         environment = "testing"
       }
@@ -108,7 +108,7 @@ module "kube" {
         owner   = "example"
         service = "kubernetes"
       }
-      node_labels = {
+      instance_labels = {
         role        = "worker-05"
         environment = "testing"
       }
@@ -130,7 +130,7 @@ module "kube" {
         owner   = "example"
         service = "kubernetes"
       }
-      node_labels = {
+      instance_labels = {
         role        = "worker-06"
         environment = "testing"
       }
@@ -144,7 +144,7 @@ module "kube" {
         owner   = "example"
         service = "kubernetes"
       }
-      node_labels = {
+      instance_labels = {
         role        = "worker-07"
         environment = "testing"
       }

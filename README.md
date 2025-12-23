@@ -102,7 +102,7 @@ module "kube" {
         workload  = "web-servers"
       }
       # Kubernetes node labels - applied to compute VMs
-      node_labels   = {
+      instance_labels   = {
         role        = "worker-01"
         environment = "testing"
       }
@@ -126,7 +126,7 @@ module "kube" {
         workload  = "api-servers"
       }
       # Kubernetes node labels - applied to compute VMs
-      node_labels   = {
+      instance_labels   = {
         role        = "worker-02"
         environment = "dev"
       }
