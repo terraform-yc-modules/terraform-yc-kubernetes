@@ -3,6 +3,14 @@ module "kube" {
 
   network_id = "enp9rm1debn7usfmtlnv"
 
+  # Cluster labels - applied to the Kubernetes cluster resource
+  labels = {
+    project     = "example-project"
+    environment = "testing"
+    owner       = "example-team"
+    managed-by  = "terraform"
+  }
+
   master_locations = [
     {
       zone      = "ru-central1-a"

@@ -11,14 +11,8 @@ locals {
     yandex_vpc_security_group.k8s_master_whitelist_sg[0].id
   ] : [])
 
-  # Merging master labels with node group labels
-  node_groups_labels = concat([
-    for i, v in tolist(keys(var.node_groups)) : lookup(var.node_groups[v], "labels", {})
-  ])
-  merged_node_labels_with_master = merge(zipmap(
-    flatten([for item in local.node_groups_labels : keys(item)]),
-    flatten([for item in local.node_groups_labels : values(item)])
-  ), var.master_labels)
+  # Cluster labels logic with backward compatibility
+  cluster_labels = length(var.labels) > 0 ? var.labels : var.master_labels
 }
 
 resource "time_sleep" "wait_for_iam" {
@@ -34,12 +28,27 @@ resource "time_sleep" "wait_for_iam" {
   ]
 }
 
+# Validation and deprecation warning
+check "labels_validation" {
+  assert {
+    condition     = !(length(var.master_labels) > 0 && length(var.labels) > 0)
+    error_message = "Cannot use both 'labels' and 'master_labels' variables simultaneously. Please use 'labels' variable for cluster labels."
+  }
+}
+
+check "master_labels_deprecation" {
+  assert {
+    condition     = length(var.master_labels) == 0
+    error_message = "WARNING: The 'master_labels' variable is deprecated and will be removed in a future version. Please use the 'labels' variable instead for cluster labels."
+  }
+}
+
 resource "yandex_kubernetes_cluster" "kube_cluster" {
   name                     = "${var.cluster_name}-${random_string.unique_id.result}"
   description              = var.description
   folder_id                = local.folder_id
   network_id               = var.network_id
-  labels                   = try(local.merged_node_labels_with_master, {})
+  labels                   = local.cluster_labels
   cluster_ipv4_range       = var.cluster_ipv4_range
   cluster_ipv6_range       = var.cluster_ipv6_range
   node_ipv4_cidr_mask_size = var.node_ipv4_cidr_mask_size
