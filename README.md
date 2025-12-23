@@ -237,17 +237,26 @@ No modules.
 | Name | Description |
 |------|-------------|
 | <a name="output_cluster_ca_certificate"></a> [cluster\_ca\_certificate](#output\_cluster\_ca\_certificate) | Kubernetes cluster certificate. |
+| <a name="output_cluster_health"></a> [cluster\_health](#output\_cluster\_health) | Kubernetes cluster health status |
 | <a name="output_cluster_id"></a> [cluster\_id](#output\_cluster\_id) | Kubernetes cluster ID. |
+| <a name="output_cluster_ipv4_range"></a> [cluster\_ipv4\_range](#output\_cluster\_ipv4\_range) | IPv4 range for cluster pods |
 | <a name="output_cluster_name"></a> [cluster\_name](#output\_cluster\_name) | Kubernetes cluster name. |
+| <a name="output_cluster_status"></a> [cluster\_status](#output\_cluster\_status) | Kubernetes cluster status |
+| <a name="output_cluster_version"></a> [cluster\_version](#output\_cluster\_version) | Kubernetes cluster version |
 | <a name="output_external_cluster_cmd"></a> [external\_cluster\_cmd](#output\_external\_cluster\_cmd) | Kubernetes cluster public IP address.<br/>    Use the following command to download kube config and start working with Yandex Managed Kubernetes cluster:<br/>    `$ yc managed-kubernetes cluster get-credentials --id <cluster_id> --external`<br/>    This command will automatically add kube config for your user; after that, you will be able to test it with the<br/>    `kubectl get cluster-info` command. |
 | <a name="output_external_v4_address"></a> [external\_v4\_address](#output\_external\_v4\_address) | Kubernetes cluster external IP address. |
 | <a name="output_external_v4_endpoint"></a> [external\_v4\_endpoint](#output\_external\_v4\_endpoint) | Kubernetes cluster external URL. |
 | <a name="output_internal_cluster_cmd"></a> [internal\_cluster\_cmd](#output\_internal\_cluster\_cmd) | Kubernetes cluster private IP address.<br/>    Use the following command to download kube config and start working with Yandex Managed Kubernetes cluster:<br/>    `$ yc managed-kubernetes cluster get-credentials --id <cluster_id> --internal`<br/>    Note: Kubernetes internal cluster nodes are available from the virtual machines in the same VPC as cluster nodes. |
 | <a name="output_internal_v4_address"></a> [internal\_v4\_address](#output\_internal\_v4\_address) | Kubernetes cluster internal IP address.<br/>    Note: Kubernetes internal cluster nodes are available from the virtual machines in the same VPC as cluster nodes. |
 | <a name="output_internal_v4_endpoint"></a> [internal\_v4\_endpoint](#output\_internal\_v4\_endpoint) | Kubernetes cluster internal URL.<br/>    Note: Kubernetes internal cluster nodes are available from the virtual machines in the same VPC as cluster nodes. |
+| <a name="output_master_security_group_ids"></a> [master\_security\_group\_ids](#output\_master\_security\_group\_ids) | Security groups IDs created for Kubernetes master. |
 | <a name="output_node_account_id"></a> [node\_account\_id](#output\_node\_account\_id) | Created IAM node account ID. |
 | <a name="output_node_account_name"></a> [node\_account\_name](#output\_node\_account\_name) | Created IAM node account name. |
+| <a name="output_node_group_ids"></a> [node\_group\_ids](#output\_node\_group\_ids) | List of all node group IDs |
+| <a name="output_node_groups"></a> [node\_groups](#output\_node\_groups) | Map of node group names to their IDs and key information |
+| <a name="output_node_ipv4_cidr_mask_size"></a> [node\_ipv4\_cidr\_mask\_size](#output\_node\_ipv4\_cidr\_mask\_size) | Size of the IPv4 CIDR block allocated to each node |
 | <a name="output_nodes_security_group_ids"></a> [nodes\_security\_group\_ids](#output\_nodes\_security\_group\_ids) | Security groups IDs created for nodes in Kubernetes cluster. |
 | <a name="output_service_account_id"></a> [service\_account\_id](#output\_service\_account\_id) | Created IAM service account ID. |
 | <a name="output_service_account_name"></a> [service\_account\_name](#output\_service\_account\_name) | Created IAM service account name. |
+| <a name="output_service_ipv4_range"></a> [service\_ipv4\_range](#output\_service\_ipv4\_range) | IPv4 range for cluster services |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
