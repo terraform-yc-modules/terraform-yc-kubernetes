@@ -67,12 +67,61 @@ output "internal_v4_endpoint" {
   value       = yandex_kubernetes_cluster.kube_cluster.master[0].internal_v4_endpoint
 }
 
+output "cluster_ipv4_range" {
+  description = "IPv4 range for cluster pods"
+  value       = yandex_kubernetes_cluster.kube_cluster.cluster_ipv4_range
+}
+
+output "service_ipv4_range" {
+  description = "IPv4 range for cluster services"
+  value       = yandex_kubernetes_cluster.kube_cluster.service_ipv4_range
+}
+
+output "node_ipv4_cidr_mask_size" {
+  description = "Size of the IPv4 CIDR block allocated to each node"
+  value       = yandex_kubernetes_cluster.kube_cluster.node_ipv4_cidr_mask_size
+}
+
 # cluster CA certificate
 output "cluster_ca_certificate" {
   description = <<EOF
     Kubernetes cluster certificate.
   EOF
   value       = yandex_kubernetes_cluster.kube_cluster.master[0].cluster_ca_certificate
+}
+
+output "cluster_status" {
+  description = "Kubernetes cluster status"
+  value       = yandex_kubernetes_cluster.kube_cluster.status
+}
+
+output "cluster_health" {
+  description = "Kubernetes cluster health status"
+  value       = yandex_kubernetes_cluster.kube_cluster.health
+}
+
+output "cluster_version" {
+  description = "Kubernetes cluster version"
+  value       = yandex_kubernetes_cluster.kube_cluster.master[0].version
+}
+
+# map of node groups
+output "node_groups" {
+  description = "Map of node group names to their IDs and key information"
+  value = {
+    for k, v in yandex_kubernetes_node_group.kube_node_groups : k => {
+      id      = v.id
+      name    = v.name
+      version = v.version
+      status  = v.status
+    }
+  }
+}
+
+# list of node group IDs
+output "node_group_ids" {
+  description = "List of all node group IDs"
+  value       = [for ng in yandex_kubernetes_node_group.kube_node_groups : ng.id]
 }
 
 # IAM node account name
@@ -113,4 +162,12 @@ output "nodes_security_group_ids" {
     Security groups IDs created for nodes in Kubernetes cluster.
   EOF
   value       = local.node_group_security_groups_list
+}
+
+# Master security group id
+output "master_security_group_ids" {
+  description = <<EOF
+    Security groups IDs created for Kubernetes master.
+  EOF
+  value       = local.master_security_groups_list
 }
