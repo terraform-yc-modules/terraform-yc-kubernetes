@@ -3,6 +3,14 @@ module "kube" {
 
   network_id = "enp9rm1debn7usfmtlnv"
 
+  # Cluster labels - applied to the Kubernetes cluster resource
+  labels = {
+    project     = "example-project"
+    environment = "testing"
+    owner       = "example-team"
+    managed-by  = "terraform"
+  }
+
   master_locations = [
     {
       zone      = "ru-central1-a"
@@ -30,7 +38,7 @@ module "kube" {
         owner   = "example"
         service = "kubernetes"
       }
-      node_labels = {
+      instance_labels = {
         role        = "worker-01"
         environment = "testing"
       }
@@ -46,7 +54,7 @@ module "kube" {
         owner   = "example"
         service = "kubernetes"
       }
-      node_labels = {
+      instance_labels = {
         role        = "worker-02"
         environment = "testing"
       }
@@ -62,7 +70,7 @@ module "kube" {
         owner   = "example"
         service = "kubernetes"
       }
-      node_labels = {
+      instance_labels = {
         role        = "worker-03"
         environment = "testing"
       }
@@ -84,7 +92,7 @@ module "kube" {
         owner   = "example"
         service = "kubernetes"
       }
-      node_labels = {
+      instance_labels = {
         role        = "worker-04"
         environment = "testing"
       }
@@ -100,7 +108,7 @@ module "kube" {
         owner   = "example"
         service = "kubernetes"
       }
-      node_labels = {
+      instance_labels = {
         role        = "worker-05"
         environment = "testing"
       }
@@ -122,7 +130,7 @@ module "kube" {
         owner   = "example"
         service = "kubernetes"
       }
-      node_labels = {
+      instance_labels = {
         role        = "worker-06"
         environment = "testing"
       }
@@ -136,7 +144,7 @@ module "kube" {
         owner   = "example"
         service = "kubernetes"
       }
-      node_labels = {
+      instance_labels = {
         role        = "worker-07"
         environment = "testing"
       }

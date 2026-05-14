@@ -223,8 +223,14 @@ variable "master_logging" {
   default = {}
 }
 
+variable "labels" {
+  description = "Set of key/value label pairs to assign to the Kubernetes cluster."
+  type        = map(string)
+  default     = {}
+}
+
 variable "master_labels" {
-  description = "Set of key/value label pairs to assign Kubernetes master nodes."
+  description = "Set of key/value label pairs to assign Kubernetes master nodes (deprecated, use 'labels' variable instead)"
   type        = map(string)
   default     = {}
 }
