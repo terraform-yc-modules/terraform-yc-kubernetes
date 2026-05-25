@@ -133,6 +133,22 @@ variable "enable_cilium_policy" {
   default     = false
 }
 
+variable "enable_workload_identity_federation" {
+  description = <<-EOF
+    Flag for enabling Workload Identity Federation on the Kubernetes cluster.
+    When enabled, Kubernetes workloads can authenticate to external identity providers
+    (e.g. AWS IAM, GCP, Azure AD) using projected service account tokens
+    without static service account keys.
+
+    To enable WIF on a specific node group, set `workload_identity_federation = true`
+    in the corresponding entry of the `node_groups` map.
+
+    See: https://yandex.cloud/ru/docs/managed-kubernetes/operations/kubernetes-cluster/kubernetes-cluster-wlif-integration
+  EOF
+  type        = bool
+  default     = false
+}
+
 # Kubernetes Master node common parameters
 variable "public_access" {
   description = "Public or private Kubernetes cluster"

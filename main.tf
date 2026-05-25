@@ -43,6 +43,15 @@ check "master_labels_deprecation" {
   }
 }
 
+check "workload_identity_federation_consistency" {
+  assert {
+    condition = var.enable_workload_identity_federation || var.node_groups == null || alltrue([
+      for ng_name, ng in var.node_groups : !try(ng.workload_identity_federation, false)
+    ])
+    error_message = "Cannot enable 'workload_identity_federation' on a node group when 'enable_workload_identity_federation' is false on the cluster. Workload Identity Federation must be enabled at the cluster level before any node group can use it."
+  }
+}
+
 resource "yandex_kubernetes_cluster" "kube_cluster" {
   name                     = "${var.cluster_name}-${random_string.unique_id.result}"
   description              = var.description
@@ -70,6 +79,13 @@ resource "yandex_kubernetes_cluster" "kube_cluster" {
     for_each = var.enable_cilium_policy ? ["cilium"] : []
     content {
       cilium {}
+    }
+  }
+
+  dynamic "workload_identity_federation" {
+    for_each = var.enable_workload_identity_federation ? [1] : []
+    content {
+      enabled = true
     }
   }
 
