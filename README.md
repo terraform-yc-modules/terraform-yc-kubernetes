@@ -59,6 +59,14 @@ module "kube" {
   source     = "./modules/kubernetes"
   network_id = "enpmff6ah2bvi0k10j66"
 
+  # Cluster labels - applied to the Kubernetes cluster resource
+  labels = {
+    project     = "my-project"
+    environment = "production"
+    owner       = "platform-team"
+    managed-by  = "terraform"
+  }
+
   master_locations   = [
     {
       zone      = "ru-central1-a"
@@ -88,7 +96,13 @@ module "kube" {
       fixed_scale   = {
         size = 3
       }
-      node_labels   = {
+      # Node group specific labels - applied to the node group resource
+      labels = {
+        node-pool = "compute-optimized"
+        workload  = "web-servers"
+      }
+      # Kubernetes node labels - applied to compute VMs
+      instance_labels   = {
         role        = "worker-01"
         environment = "testing"
       }
@@ -106,7 +120,13 @@ module "kube" {
           subnet_id = "e2lu07tr481h35012c8p"
         }
       ]
-      node_labels   = {
+      # Node group specific labels - applied to the node group resource
+      labels = {
+        node-pool = "auto-scaling"
+        workload  = "api-servers"
+      }
+      # Kubernetes node labels - applied to compute VMs
+      instance_labels   = {
         role        = "worker-02"
         environment = "dev"
       }
@@ -206,8 +226,9 @@ No modules.
 | <a name="input_enable_outgoing_traffic"></a> [enable\_outgoing\_traffic](#input\_enable\_outgoing\_traffic) | Enables all outgoing traffic. Nodes can connect to Yandex Container Registry, Yandex Object Storage, Docker Hub, and so on..<br/><br/>"rule-1" = {<br/>  protocol       = "ANY"<br/>  description    = "Rule allows all outgoing traffic. Nodes can connect to Yandex Container Registry, Yandex Object Storage, Docker Hub, and so on."<br/>  v4\_cidr\_blocks = ["0.0.0.0/0"]<br/>  from\_port      = 0<br/>  to\_port        = 65535<br/>} | `bool` | `true` | no |
 | <a name="input_folder_id"></a> [folder\_id](#input\_folder\_id) | The ID of the folder that the Kubernetes cluster belongs to. | `string` | `null` | no |
 | <a name="input_kms_key"></a> [kms\_key](#input\_kms\_key) | KMS symmetric key parameters. | `any` | `{}` | no |
+| <a name="input_labels"></a> [labels](#input\_labels) | Set of key/value label pairs to assign to the Kubernetes cluster. | `map(string)` | `{}` | no |
 | <a name="input_master_auto_upgrade"></a> [master\_auto\_upgrade](#input\_master\_auto\_upgrade) | Boolean flag that specifies if master can be upgraded automatically. | `bool` | `true` | no |
-| <a name="input_master_labels"></a> [master\_labels](#input\_master\_labels) | Set of key/value label pairs to assign Kubernetes master nodes. | `map(string)` | `{}` | no |
+| <a name="input_master_labels"></a> [master\_labels](#input\_master\_labels) | Set of key/value label pairs to assign Kubernetes master nodes (deprecated, use 'labels' variable instead) | `map(string)` | `{}` | no |
 | <a name="input_master_locations"></a> [master\_locations](#input\_master\_locations) | List of locations where the cluster will be created. If the list contains only one<br/>location, a zonal cluster will be created; if there are three locations, this will create a regional cluster.<br/><br/>Note: The master locations list may only have ONE or THREE locations. | <pre>list(object({<br/>    zone      = string<br/>    subnet_id = string<br/>  }))</pre> | n/a | yes |
 | <a name="input_master_logging"></a> [master\_logging](#input\_master\_logging) | (Optional) Master logging options. | <pre>object({<br/>    enabled                = optional(bool, true)<br/>    folder_id              = optional(string, null)<br/>    enabled_kube_apiserver = optional(bool, true)<br/>    enabled_autoscaler     = optional(bool, true)<br/>    enabled_events         = optional(bool, true)<br/>    enabled_audit          = optional(bool, true)<br/>    log_group_id           = optional(string, null)<br/>  })</pre> | `{}` | no |
 | <a name="input_master_maintenance_windows"></a> [master\_maintenance\_windows](#input\_master\_maintenance\_windows) | List of structures that specifies maintenance windows,<br/>    when auto update for the master is allowed.<br/><br/>    Example:<pre>master_maintenance_windows = [<br/>      {<br/>        day        = "monday"<br/>        start_time = "23:00"<br/>        duration   = "3h"<br/>      }<br/>    ]</pre> | `list(map(string))` | `[]` | no |
