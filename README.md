@@ -190,19 +190,19 @@ export YC_FOLDER_ID=$(yc config get folder-id)
 ## Requirements
 
 | Name | Version |
-|------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0 |
+| ---- | ------- |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5.0 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | > 3.3 |
 | <a name="requirement_time"></a> [time](#requirement\_time) | > 0.9 |
-| <a name="requirement_yandex"></a> [yandex](#requirement\_yandex) | >= 0.147 |
+| <a name="requirement_yandex"></a> [yandex](#requirement\_yandex) | >= 0.189.0 |
 
 ## Providers
 
 | Name | Version |
-|------|---------|
-| <a name="provider_random"></a> [random](#provider\_random) | 3.7.2 |
-| <a name="provider_time"></a> [time](#provider\_time) | 0.13.1 |
-| <a name="provider_yandex"></a> [yandex](#provider\_yandex) | 0.162.0 |
+| ---- | ------- |
+| <a name="provider_random"></a> [random](#provider\_random) | 3.9.1 |
+| <a name="provider_time"></a> [time](#provider\_time) | 0.14.2 |
+| <a name="provider_yandex"></a> [yandex](#provider\_yandex) | 0.189.0 |
 
 ## Modules
 
@@ -211,7 +211,7 @@ No modules.
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [random_string.unique_id](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
 | [time_sleep.wait_for_iam](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/sleep) | resource |
 | [yandex_iam_service_account.master](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/iam_service_account) | resource |
@@ -241,7 +241,7 @@ No modules.
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_allow_public_load_balancers"></a> [allow\_public\_load\_balancers](#input\_allow\_public\_load\_balancers) | Flag for creating new IAM role with a load-balancer.admin access. | `bool` | `true` | no |
 | <a name="input_allowed_ips"></a> [allowed\_ips](#input\_allowed\_ips) | List of allowed IPv4 CIDR blocks. | `list(string)` | <pre>[<br/>  "0.0.0.0/0"<br/>]</pre> | no |
 | <a name="input_allowed_ips_ssh"></a> [allowed\_ips\_ssh](#input\_allowed\_ips\_ssh) | List of allowed IPv4 CIDR blocks for an access via SSH. | `list(string)` | <pre>[<br/>  "0.0.0.0/0"<br/>]</pre> | no |
@@ -294,7 +294,7 @@ No modules.
 ## Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_cluster_ca_certificate"></a> [cluster\_ca\_certificate](#output\_cluster\_ca\_certificate) | Kubernetes cluster certificate. |
 | <a name="output_cluster_health"></a> [cluster\_health](#output\_cluster\_health) | Kubernetes cluster health status |
 | <a name="output_cluster_id"></a> [cluster\_id](#output\_cluster\_id) | Kubernetes cluster ID. |
