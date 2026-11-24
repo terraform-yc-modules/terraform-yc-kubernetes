@@ -5,6 +5,7 @@
 - Create Kubernetes cluster of two types: zonal or regional 
 - Create user defined Kubernetes node groups
 - Create service accounts and KMS encryption key for Kubernetes cluster
+- Optionally enable [Workload Identity Federation](https://yandex.cloud/ru/docs/managed-kubernetes/operations/kubernetes-cluster/kubernetes-cluster-wlif-integration) on the cluster and per node group
 - Easy to use in other resources via outputs
 
 ## Kubernetes cluster definition
@@ -139,6 +140,42 @@ module "kube" {
 }
 ```
 
+## Workload Identity Federation
+
+The module supports [Workload Identity Federation](https://yandex.cloud/ru/docs/managed-kubernetes/operations/kubernetes-cluster/kubernetes-cluster-wlif-integration), which allows Kubernetes workloads to authenticate to external identity providers (AWS IAM, GCP, Azure AD, etc.) using projected service account tokens without static keys.
+
+- Set `enable_workload_identity_federation = true` to enable WIF on the cluster.
+- Set `workload_identity_federation = true` inside an entry of the `node_groups` map to enable WIF for that node group. The cluster-level flag must be enabled first - otherwise the configuration check will fail.
+- The `workload_identity_federation` output exposes `enabled`, `issuer` and `jwks_uri` of the cluster - use them to configure trust on the external identity provider.
+
+```hcl-terraform
+module "kube" {
+  source     = "./modules/kubernetes"
+  network_id = "enpmff6ah2bvi0k10j66"
+
+  master_locations = [
+    {
+      zone      = "ru-central1-a"
+      subnet_id = "e9b3k97pr2nh1i80as04"
+    }
+  ]
+
+  enable_workload_identity_federation = true
+
+  node_groups = {
+    "yc-k8s-ng-wif" = {
+      description                  = "Node group with Workload Identity Federation"
+      workload_identity_federation = true
+      fixed_scale = {
+        size = 2
+      }
+    }
+  }
+}
+```
+
+See `examples/example-6-with-workload-identity-federation` for a complete working example.
+
 ## Configure Terraform for Yandex Cloud
 
 - Install [YC CLI](https://cloud.yandex.com/docs/cli/quickstart)
@@ -156,10 +193,10 @@ export YC_FOLDER_ID=$(yc config get folder-id)
 
 | Name | Version |
 | ---- | ------- |
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5.0 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | > 3.3 |
 | <a name="requirement_time"></a> [time](#requirement\_time) | > 0.9 |
-| <a name="requirement_yandex"></a> [yandex](#requirement\_yandex) | >= 0.147 |
+| <a name="requirement_yandex"></a> [yandex](#requirement\_yandex) | >= 0.189.0 |
 
 ## Providers
 
@@ -167,7 +204,7 @@ export YC_FOLDER_ID=$(yc config get folder-id)
 | ---- | ------- |
 | <a name="provider_random"></a> [random](#provider\_random) | 3.9.1 |
 | <a name="provider_time"></a> [time](#provider\_time) | 0.14.2 |
-| <a name="provider_yandex"></a> [yandex](#provider\_yandex) | 0.147.0 |
+| <a name="provider_yandex"></a> [yandex](#provider\_yandex) | 0.189.0 |
 
 ## Modules
 
@@ -226,6 +263,7 @@ No modules.
 | <a name="input_enable_node_ssh_access"></a> [enable\_node\_ssh\_access](#input\_enable\_node\_ssh\_access) | Enables creation of node ssh access rule.<br/><br/>ingress {<br/>  protocol       = "TCP"<br/>  description    = "Allow access to worker nodes via SSH from IP's."<br/>  v4\_cidr\_blocks = var.allowed\_ips\_ssh<br/>  port           = 22<br/>} | `bool` | `true` | no |
 | <a name="input_enable_oslogin_or_ssh_keys"></a> [enable\_oslogin\_or\_ssh\_keys](#input\_enable\_oslogin\_or\_ssh\_keys) | Enabling OS Login or adding ssh-keys to metadata of node-groups. | `map(any)` | <pre>{<br/>  "enable-oslogin": "false",<br/>  "ssh-keys": null<br/>}</pre> | no |
 | <a name="input_enable_outgoing_traffic"></a> [enable\_outgoing\_traffic](#input\_enable\_outgoing\_traffic) | Enables all outgoing traffic. Nodes can connect to Yandex Container Registry, Yandex Object Storage, Docker Hub, and so on..<br/><br/>"rule-1" = {<br/>  protocol       = "ANY"<br/>  description    = "Rule allows all outgoing traffic. Nodes can connect to Yandex Container Registry, Yandex Object Storage, Docker Hub, and so on."<br/>  v4\_cidr\_blocks = ["0.0.0.0/0"]<br/>  from\_port      = 0<br/>  to\_port        = 65535<br/>} | `bool` | `true` | no |
+| <a name="input_enable_workload_identity_federation"></a> [enable\_workload\_identity\_federation](#input\_enable\_workload\_identity\_federation) | Flag for enabling Workload Identity Federation on the Kubernetes cluster.<br/>When enabled, Kubernetes workloads can authenticate to external identity providers<br/>(e.g. AWS IAM, GCP, Azure AD) using projected service account tokens<br/>without static service account keys.<br/><br/>To enable WIF on a specific node group, set `workload_identity_federation = true`<br/>in the corresponding entry of the `node_groups` map.<br/><br/>See: https://yandex.cloud/ru/docs/managed-kubernetes/operations/kubernetes-cluster/kubernetes-cluster-wlif-integration | `bool` | `false` | no |
 | <a name="input_folder_id"></a> [folder\_id](#input\_folder\_id) | The ID of the folder that the Kubernetes cluster belongs to. | `string` | `null` | no |
 | <a name="input_kms_key"></a> [kms\_key](#input\_kms\_key) | KMS symmetric key parameters. | `any` | `{}` | no |
 | <a name="input_labels"></a> [labels](#input\_labels) | Set of key/value label pairs to assign to the Kubernetes cluster. | `map(string)` | `{}` | no |
@@ -282,4 +320,5 @@ No modules.
 | <a name="output_service_account_id"></a> [service\_account\_id](#output\_service\_account\_id) | Created IAM service account ID. |
 | <a name="output_service_account_name"></a> [service\_account\_name](#output\_service\_account\_name) | Created IAM service account name. |
 | <a name="output_service_ipv4_range"></a> [service\_ipv4\_range](#output\_service\_ipv4\_range) | IPv4 range for cluster services |
+| <a name="output_workload_identity_federation"></a> [workload\_identity\_federation](#output\_workload\_identity\_federation) | Workload Identity Federation configuration of the cluster.<br/>    Returns an object with `enabled`, `issuer` and `jwks_uri` when WIF is enabled<br/>    on the cluster, otherwise `null`. Use `issuer` and `jwks_uri` to configure<br/>    external identity providers (e.g. AWS IAM OIDC, GCP Workload Identity Pools). |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

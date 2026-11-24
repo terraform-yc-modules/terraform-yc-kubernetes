@@ -105,6 +105,20 @@ output "cluster_version" {
   value       = yandex_kubernetes_cluster.kube_cluster.master[0].version
 }
 
+output "workload_identity_federation" {
+  description = <<EOF
+    Workload Identity Federation configuration of the cluster.
+    Returns an object with `enabled`, `issuer` and `jwks_uri` when WIF is enabled
+    on the cluster, otherwise `null`. Use `issuer` and `jwks_uri` to configure
+    external identity providers (e.g. AWS IAM OIDC, GCP Workload Identity Pools).
+  EOF
+  value = try({
+    enabled  = yandex_kubernetes_cluster.kube_cluster.workload_identity_federation[0].enabled
+    issuer   = yandex_kubernetes_cluster.kube_cluster.workload_identity_federation[0].issuer
+    jwks_uri = yandex_kubernetes_cluster.kube_cluster.workload_identity_federation[0].jwks_uri
+  }, null)
+}
+
 # map of node groups
 output "node_groups" {
   description = "Map of node group names to their IDs and key information"

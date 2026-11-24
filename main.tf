@@ -44,6 +44,15 @@ check "master_labels_deprecation" {
 }
 
 resource "yandex_kubernetes_cluster" "kube_cluster" {
+  lifecycle {
+    precondition {
+      condition = var.enable_workload_identity_federation || alltrue([
+        for ng in var.node_groups : !coalesce(try(ng.workload_identity_federation, null), false)
+      ])
+      error_message = "Enable Workload Identity Federation on the cluster before enabling it on a node group."
+    }
+  }
+
   name                     = "${var.cluster_name}-${random_string.unique_id.result}"
   description              = var.description
   folder_id                = local.folder_id
@@ -70,6 +79,13 @@ resource "yandex_kubernetes_cluster" "kube_cluster" {
     for_each = var.enable_cilium_policy ? ["cilium"] : []
     content {
       cilium {}
+    }
+  }
+
+  dynamic "workload_identity_federation" {
+    for_each = var.enable_workload_identity_federation ? [1] : []
+    content {
+      enabled = true
     }
   }
 

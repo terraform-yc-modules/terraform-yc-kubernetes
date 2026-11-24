@@ -174,4 +174,11 @@ resource "yandex_kubernetes_node_group" "kube_node_groups" {
       max_unavailable = each.value.max_unavailable
     }
   }
+
+  dynamic "workload_identity_federation" {
+    for_each = try(each.value.workload_identity_federation, null) != null ? [each.value.workload_identity_federation] : []
+    content {
+      enabled = workload_identity_federation.value
+    }
+  }
 }
