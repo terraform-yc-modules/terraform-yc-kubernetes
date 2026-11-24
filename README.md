@@ -30,6 +30,8 @@ The Kubernetes module requires the following input variables:
 
 ## Node Group definition
 
+Set `node_group_security_groups_list` on an individual node group to attach additional security groups. Each group keeps the common security groups and any security groups created by the module.
+
 The `node_groups` section defines a list of maps for each node group. You can determine any parameter for each node group, but all of them have default values. This way, an empty node group object will be created using such default values.
 For instance, in `example 2`, we define seven node groups with their own parameters. You can create any number of node groups, which is only limited by the Yandex Kubernetes service capacity. If the `node_location` parameter is not provided, the location will be automatically assigned from the master location list.
 
